@@ -1,0 +1,9 @@
+main example 
+    https://threejs.org/examples/#webgl_panorama_cube
+
+1. use a cube map to create the (3d world, or it can be a room with computers running code etc..)
+2. create templates that the user click to nav website or go to other web
+
+u can get skybopx from here 
+    https://opengameart.org/content/elyvisions-skyboxes
+    
