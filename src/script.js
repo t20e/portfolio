@@ -6,12 +6,7 @@ import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonCont
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 import { AxesHelper } from "three/src/helpers/AxesHelper.js";
-import arid2_ft from "./assets/arid2_ft.jpg";
-import arid2_bk from "./assets/arid2_bk.jpg";
-import arid2_up from "./assets/arid2_up.jpg";
-import arid2_dn from "./assets/arid2_dn.jpg";
-import arid2_rt from "./assets/arid2_rt.jpg";
-import arid2_lf from "./assets/arid2_lf.jpg";
+
 import satoshi_light from "./assets/satoshi_light_regular.json";
 import { loadModels } from "./loadModels.js"
 import { mergeWithRules } from "webpack-merge";
@@ -30,6 +25,7 @@ let USE_WIREFRAME = false;
 
 let yawDir, pitchDir, lookAt;
 // yaw is the horizontal view, pitch is the vertical
+// const template = 
 const init = () => {
     scene = new THREE.Scene();
     scene.background = new THREE.Color("whiteSmoke");
@@ -44,10 +40,10 @@ const init = () => {
     hemiLight.color.setHSL(0.6, 1, 0.6);
     hemiLight.groundColor.setHSL(0.095, 1, 0.75);
     hemiLight.position.set(15, 20, 0);
-    scene.add(hemiLight);
+    // scene.add(hemiLight);
 
     const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 10);
-    scene.add(hemiLightHelper);
+    // scene.add(hemiLightHelper);
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -196,7 +192,7 @@ const init = () => {
     // scene.add(wall4);
 
 
-    loadModels(scene)
+    loadModels(scene, THREE)
     // text loader
     const textLoader = new FontLoader();
     textLoader.load(satoshi_light), (font) => {
@@ -287,102 +283,3 @@ const onWindowResize = () => {
 }
 init();
 
-// OLDER WITH CUBE MAPPING BUT I COULD NOT GET THE TEXTS TO APPEAR INSIDE
-
-// const init = () => {
-//     scene = new THREE.Scene();
-//     scene.background = new THREE.Color(255, 255, 255);
-
-//     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 20000);
-//     camera.position.y = 0;
-//     clock = new THREE.Clock();
-//     renderer = new THREE.WebGLRenderer({ antialias: true });
-//     renderer.setSize(window.innerWidth, window.innerHeight);
-//     renderer.setPixelRatio(window.devicePixelRatio);
-//     renderer.shadowMap.enabled = true;
-//     document.body.appendChild(renderer.domElement);
-//     // create a plane mesh to be a group object that light will cast on
-//     const plane = new THREE.Mesh(new THREE.PlaneGeometry(1000, 1000), new THREE.MeshPhongMaterial({ color: 0xffff00 }));
-//     plane.rotation.x = - Math.PI / 2
-//     plane.receiveShadow = true;
-//     plane.position.z = 0;
-//     scene.add(plane);
-//     camera.lookAt(plane.position);
-
-//     scene.add(new THREE.AmbientLight(0xffffff, .05));
-//     const light1 = new THREE.PointLight(0x33ff33, 1, 100)
-//     light1.castShadow = true;
-//     light1.shadow.mapSize.width = 4096
-//     light1.shadow.mapSize.height = 4096
-//     scene.add(light1)
-
-
-//     controls = new FirstPersonControls(camera, renderer.domElement);
-//     controls.movementSpeed = 500;
-//     controls.lookSpeed = 0.8;
-//     controls.movementSpeed = 0.2;
-//     // controls.addEventListener('change', renderer);
-//     // controls.minDistance = 500;
-//     // controls.maxDistance = 1000;
-//     // controls.enablePan = false;
-//     let materialArr = [];
-//     // load the images as texture
-//     let texture_ft = new THREE.TextureLoader().load(arid2_ft);
-//     let texture_bk = new THREE.TextureLoader().load(arid2_bk);
-//     let texture_up = new THREE.TextureLoader().load(arid2_up);
-//     let texture_dn = new THREE.TextureLoader().load(arid2_dn);
-//     let texture_rt = new THREE.TextureLoader().load(arid2_rt);
-//     let texture_lf = new THREE.TextureLoader().load(arid2_lf);
-
-//     materialArr.push(new THREE.MeshBasicMaterial({ map: texture_ft }))
-//     materialArr.push(new THREE.MeshBasicMaterial({ map: texture_bk }))
-//     materialArr.push(new THREE.MeshBasicMaterial({ map: texture_up }))
-//     materialArr.push(new THREE.MeshBasicMaterial({ map: texture_dn }))
-//     materialArr.push(new THREE.MeshBasicMaterial({ map: texture_rt }))
-//     materialArr.push(new THREE.MeshBasicMaterial({ map: texture_lf }))
-//     // this will make it so the texture is applied to the outside instead of on the cubemap
-//     for (let i = 0; i < 6; i++) {
-//         materialArr[i].side = THREE.BackSide;
-//     }
-
-//     let skyBoxGeo = new THREE.BoxGeometry(10000, 10000, 10000)
-//     let skyBox = new THREE.Mesh(skyBoxGeo, materialArr)
-
-//     scene.add(skyBox)
-//     // text loader
-//     const loader = new FontLoader();
-//     loader.load(satoshi_light), (font) => {
-//         const geometry = new TextGeometry("hi how are you", {
-//             font: font,
-//             size: 20,
-//             height: 20,
-//         })
-//         const textMesh = new THREE.Mesh(geometry, [
-//             new THREE.MeshPhongMaterial({ color: 0xffff }), //front
-//             new THREE.MeshPhongMaterial({ color: 0xffff }), //side
-//         ]);
-//         // text mesh
-//         textMesh.castShadow = true;
-//         textMesh.set(0, 0, 0)
-//         scene.add(textMesh);
-//     }
-//     animate();
-// }
-// const animate = () => {
-//     // loops through pixel to animate
-//     // const delta = Clock.getDelta();
-//     // const time = clock.getElapsedTime() * 10;
-//     // const position = geometry.attributes.position;
-
-//     // for (let i = 0; i < position.count; i++) {
-
-//     //     const y = 35 * Math.sin(i / 5 + (time + i) / 7);
-//     //     position.setY(i, y);
-
-//     // }
-//     // position.needsUpdate = true;
-//     // controls.update(delta);
-//     renderer.render(scene, camera);
-//     requestAnimationFrame(animate);
-// }
-// init();

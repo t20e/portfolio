@@ -2,3 +2,4 @@ src/assets
 dist/images
 src/assets/models
 node_modules
+.DS_STORE
