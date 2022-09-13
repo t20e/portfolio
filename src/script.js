@@ -1,5 +1,6 @@
 import "./styles/main.scss";
 import * as THREE from "three";
+import { Group, LoadingManager, AnimationMixer, AnimationClip, Clock } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { AxesHelper } from "three/src/helpers/AxesHelper.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
@@ -13,19 +14,17 @@ import rainbow_dn from "./assets/rainbow_dn.png";
 import rainbow_rt from "./assets/rainbow_rt.png";
 import rainbow_lf from "./assets/rainbow_lf.png";
 import scene_import from "./assets/models/scene.gltf"
-import { LoadingManager } from "three";
-import { AnimationMixer } from "three";
-import { AnimationClip } from "three";
-import {Clock} from "three";
-import {CSS3DObject } from "three/examples/jsm/renderers/CSS3DRenderer.js";
-import {CSS3DRenderer} from "three/examples/jsm/renderers/CSS3DRenderer.js"
+import { CSS3DRenderer, CSS3DObject } from 'three/addons/renderers/CSS3DRenderer.js';
 
 
-let scene, camera, renderer, controls, clock;
-let mixer = null
+let scene, cssScene, camera, renderer, cssRenderer, controls, clock, mixer;
 let player = { height: 1.8 };
-let USE_WIREFRAME = false;
+let USE_WIREFRAME = true;
+let vidOne_Texture;
 
+
+const material = new THREE.MeshBasicMaterial({ wireframe: USE_WIREFRAME, wireframeLinewidth: 1, side: THREE.DoubleSide });
+// const material = new THREE.MeshBasicMaterial({ color: 0x69934, wireframe: USE_WIREFRAME, wireframeLinewidth: 1, side: THREE.FrontSide });
 const loadManager = new LoadingManager()
 // passing in the loadManager to every instance of a loader such as GLTFLoader etc,
 // gltf loader
@@ -47,8 +46,11 @@ const gltfLoader = new GLTFLoader(loadManager);
 
 const init = () => {
     scene = new THREE.Scene();
-
-
+    cssScene = new THREE.Scene();
+    clock = new THREE.Clock();
+    // const addScreen = new THREE.Group()
+    // addScreen.add(new screensRender('99', 0, 0, 240, 0))
+    // cssScene.add(addScreen);
     const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
     hemiLight.color.setHSL(0.2, .2, 0.1);
     hemiLight.groundColor.setHSL(0.095, 1, 0.75);
@@ -56,80 +58,76 @@ const init = () => {
     scene.add(hemiLight);
 
     const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 2);
-    scene.add(hemiLightHelper);
+    // scene.add(hemiLightHelper);
 
-    renderer = new THREE.WebGLRenderer({ antialias: true });
-    // renderer = new CSS3DRenderer({antialias:true})
+
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    // renderer.setClearColor(0x000000, 0); // the default
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.shadowMap.enabled = true;
+    // renderer.shadowMap.enabled = true;
+    renderer.domElement.setAttribute('id', 'renderer');
+    document.body.appendChild(renderer.domElement)
+
+    cssRenderer = new CSS3DRenderer()
+    cssRenderer.setSize(window.innerWidth, window.innerHeight);
+    cssRenderer.domElement.style.position = 'absolute';
+    cssRenderer.domElement.style.top = 0;
+    cssRenderer.domElement.style.height = '200px';
+    cssRenderer.domElement.style.width = '200px';
+    cssRenderer.domElement.setAttribute('id', 'cssRenderer')
+    document.body.appendChild(cssRenderer.domElement);
 
 
     camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.lookAt(new THREE.Vector3(0, player.height, 0));
-    // camera.position.y = 2;
+    camera.position.y = 3;
     camera.position.z -= 0.01;
 
-    controls = new OrbitControls(camera, renderer.domElement);
+    controls = new OrbitControls(camera, renderer.domElement, cssRenderer.domElement);
     controls.enableDamping = true;
     controls.enableZoom = false;
     controls.rotateSpeed = - 0.30;
     controls.enablePan = false;
 
     scene.add(camera);
-
+    // loadModels()
+    screensRender()
 
     // axe helper
-    // const axesHelper = new AxesHelper(20);
+    const axesHelper = new AxesHelper(10);
     // scene.add(axesHelper);
     //FIXME finish this
-    const overlay = document.createElement("div");
-    overlay.innerHTML = "<h1> hello css </h1>"
-    let obj = new CSS3DObject(overlay)
-    obj.position.set(0,0,0)
-    scene.add(obj);
+    // const overlay = document.createElement("div");
+    // overlay.innerHTML = "<h1> hello css </h1>"
+    // let obj = new CSS3DObject(overlay)
+    // obj.position.set(0, 0, 0)
+    // scene.add(obj);
 
-    document.body.appendChild(renderer.domElement)
     window.addEventListener('resize', onWindowResize);
     // controls for drag and scroll
     document.addEventListener('wheel', onMouseWheel);
-    
-    loadModels()
+
+
     animate();
 };
 
 const animate = () => {
     // this loops to create frames
     requestAnimationFrame(animate);
-    // update animation 
-    // mixer !== null? mixer.update(): null
+    // update video texture
+    // vidOne_Texture.needsUpdate = true;
     renderer.render(scene, camera);
+    cssRenderer.render(cssScene, camera);
 };
 
 const loadModels = () => {
-    // gltfLoader.load(tv_station, (gltf) => {
-    //     gltf.scene.traverse((c) => {
-    //         c.castShadow = true;
-    //         c.receiveShadow = true;
-    //         c.position.z = 0
-    //         c.position.y = .23
-    //         // c.scale.set(.18, .18, .18)
-    //     });
-    //     scene.add(gltf.scene);
-    // });
-
-
     gltfLoader.load(scene_import, (gltf) => {
         gltf.scene.traverse((c) => {
             c.castShadow = true;
             c.receiveShadow = true;
         });
         scene.add(gltf.scene);
-        mixer = new AnimationMixer(gltf.scene);
-        const clips = gltf.animations;
-        const clip = AnimationClip.findByName(clips, 'HeadAction');
-        const action = mixer.clipAction(clip);
-        // action.play()
     });
 
     let materialArr = [];
@@ -157,6 +155,61 @@ const loadModels = () => {
     skyBox.position.y = 1
     scene.add(skyBox)
 }
+const screensRender = () => {
+    // let screenOne = document.getElementById("screen_one")
+    // console.log(screen_one)
+    // // screenOne.load()
+    // // screenOne.play()
+    // vidOne_Texture = new THREE.VideoTexture(screenOne)
+    // vidOne_Texture.minFilter = THREE.LinearFilter;
+    // vidOne_Texture.magFilter = THREE.LinearFilter;
+
+    // let vidMaterial = new THREE.MeshBasicMaterial({
+    //     map: vidOne_Texture, //set material Property to video texture
+    //     side: THREE.DoubleSide, //show vid on front side
+    //     toneMapped: false // turn off tone mapping
+    // })
+    let pos = new THREE.Vector3(0.745769, -0.332765, -3.57589)
+
+    const geometry = new THREE.PlaneGeometry(1.19775, 0.749114);
+    // TODO set to video materail
+    const screen_mesh = new THREE.Mesh(geometry, material);
+    // screen_mesh.position.copy(pos);
+    screen_mesh.position.set(.5, .5, .5)
+    screen_mesh.rotation.y = -0.349066
+    // screen_mesh.rotation.copy(object.rotation);
+    // screen_mesh.scale.copy(object.scale);
+    scene.add(screen_mesh);
+
+    // const div = document.createElement('div');
+    // div.style.width = '100px';
+    // div.style.height = '100px';
+    // div.style.background = 'red';
+    // div.style.opacity = 1;
+    // div.classList.add('contains_screen');
+
+    // const img = document.createElement("img");
+    // img.setAttribute('id', 'imgOne')
+    // img.src = vidOne
+    // img.setAttribute('alt', "screen video here")
+    // div.appendChild(img);
+
+    // const h1 = document.createElement("h1");
+    // h1.style.fontSize = '200px';
+    // h1.style.color = 'orange';
+    // h1.append('hello there')
+    // div.appendChild(h1);
+    // // location
+
+    // let object = new CSS3DObject(div);
+    // object.position.copy(pos);
+    // object.rotation.y = -0.349066
+    // cssScene.add(object);
+    // console.log(object);
+    // size
+
+
+}
 
 const onMouseWheel = (e) => {
     const fov = camera.fov + e.deltaY * 0.05;
@@ -165,11 +218,10 @@ const onMouseWheel = (e) => {
     camera.updateProjectionMatrix();
 }
 const onWindowResize = () => {
-    // for first person controls handle window resize
-    // controls.handleResize();
     camera.aspect = window.innerWidth / window.innerHeight;
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
+    cssRenderer.setSize(window.innerWidth, window.innerHeight);
     camera.updateProjectionMatrix();
 }
 

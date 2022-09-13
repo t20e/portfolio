@@ -2,7 +2,8 @@ const path = require('path');
 
 // this is the plugin that auto regenerates our dist/htmls
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const loader = require('sass-loader');
+import html from './src/template.html'
 // analyzer plugin to help see insights into app
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
@@ -17,7 +18,7 @@ module.exports = {
         clean: true,
         // this will keep the img filenames the same in dist folder
         // assetModuleFilename: '[name][ext]'
-        assetModuleFilename: 'images/[hash][ext][query]'
+        assetModuleFilename: 'assets/[hash][ext][query]'
     },
     // helps find bugs faster
     devtool: 'source-map',
@@ -73,8 +74,29 @@ module.exports = {
                 //     }
                 // ],
             },
-            
-  
+            { test: /\.html$/, loader: 'html-loader?attrs[]=video:src' },
+            { test: /\.(mov|mp4)$/, loader: 'url-loader' },
+            {
+                test: /\.html$/i,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: "html-loader",
+                        options: {
+                            sources: {
+                                list: [
+                                    {
+                                        tag: "video",
+                                        attribute: "src",
+                                        type: "src"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+              
         ]
     },
     // add plugins here
