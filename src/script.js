@@ -16,11 +16,10 @@ import rainbow_lf from "./assets/rainbow_lf.png";
 import scene_import from "./assets/models/scene.gltf"
 import { CSS3DRenderer, CSS3DObject } from 'three/addons/renderers/CSS3DRenderer.js';
 
-
 let scene, cssScene, camera, renderer, cssRenderer, controls, clock, mixer;
 let player = { height: 1.8 };
 let USE_WIREFRAME = true;
-let vidOne_Texture;
+let vid_texture;
 
 
 const material = new THREE.MeshBasicMaterial({ wireframe: USE_WIREFRAME, wireframeLinewidth: 1, side: THREE.DoubleSide });
@@ -69,46 +68,46 @@ const init = () => {
     renderer.domElement.setAttribute('id', 'renderer');
     document.body.appendChild(renderer.domElement)
 
-    cssRenderer = new CSS3DRenderer()
-    cssRenderer.setSize(window.innerWidth, window.innerHeight);
-    cssRenderer.domElement.style.position = 'absolute';
-    cssRenderer.domElement.style.top = 0;
-    cssRenderer.domElement.style.height = '200px';
-    cssRenderer.domElement.style.width = '200px';
-    cssRenderer.domElement.setAttribute('id', 'cssRenderer')
-    document.body.appendChild(cssRenderer.domElement);
+    // cssRenderer = new CSS3DRenderer()
+    // cssRenderer.setSize(window.innerWidth, window.innerHeight);
+    // cssRenderer.domElement.style.height = '300px';
+    // cssRenderer.domElement.style.width = '250px';
+    // cssRenderer.domElement.setAttribute('id', 'cssRenderer')
+    // // const div = document.createElement('div');
+    // // div.style.backgroundColor = 'blue';
+    // // div.style.position = 'absolute';
+    // // div.style.top = '0px';
+    // // div.style.right = '0px';
+    // // div.height = '100px';
+    // // div.width = '100px';
+    // // let object = new CSS3DObject(div);
+    // // cssScene.add(object);
+    // document.body.appendChild(cssRenderer.domElement);
 
 
-    camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.lookAt(new THREE.Vector3(0, player.height, 0));
-    camera.position.y = 3;
+    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
+    // camera.position.y = 3;
     camera.position.z -= 0.01;
 
-    controls = new OrbitControls(camera, renderer.domElement, cssRenderer.domElement);
+    controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.enableZoom = false;
     controls.rotateSpeed = - 0.30;
     controls.enablePan = false;
 
     scene.add(camera);
-    // loadModels()
-    screensRender()
+    loadModels()
+    screensRender("screen_one", 0.745769 , -0.332765, -3.57589 , -0.349066)
+    screensRender("screen_two", -0.72123, -0.332765, -3.59841, 0.349066)
 
     // axe helper
     const axesHelper = new AxesHelper(10);
-    // scene.add(axesHelper);
-    //FIXME finish this
-    // const overlay = document.createElement("div");
-    // overlay.innerHTML = "<h1> hello css </h1>"
-    // let obj = new CSS3DObject(overlay)
-    // obj.position.set(0, 0, 0)
-    // scene.add(obj);
+
 
     window.addEventListener('resize', onWindowResize);
     // controls for drag and scroll
     document.addEventListener('wheel', onMouseWheel);
-
-
+    camera.rotation.y = 90;
     animate();
 };
 
@@ -116,9 +115,9 @@ const animate = () => {
     // this loops to create frames
     requestAnimationFrame(animate);
     // update video texture
-    // vidOne_Texture.needsUpdate = true;
+    // vid_texture.needsUpdate = true;
     renderer.render(scene, camera);
-    cssRenderer.render(cssScene, camera);
+    // cssRenderer.render(cssScene, camera);
 };
 
 const loadModels = () => {
@@ -155,60 +154,31 @@ const loadModels = () => {
     skyBox.position.y = 1
     scene.add(skyBox)
 }
-const screensRender = () => {
-    // let screenOne = document.getElementById("screen_one")
+// id, pos(xyz), roation.y
+const screensRender = (id, x, y, z, rotateY) => {
+    let screen = document.getElementById(id)
     // console.log(screen_one)
-    // // screenOne.load()
-    // // screenOne.play()
-    // vidOne_Texture = new THREE.VideoTexture(screenOne)
-    // vidOne_Texture.minFilter = THREE.LinearFilter;
-    // vidOne_Texture.magFilter = THREE.LinearFilter;
+    // screen.load()
+    screen.play()
+    vid_texture = new THREE.VideoTexture(screen)
+    vid_texture.minFilter = THREE.LinearFilter;
+    vid_texture.magFilter = THREE.LinearFilter;
 
-    // let vidMaterial = new THREE.MeshBasicMaterial({
-    //     map: vidOne_Texture, //set material Property to video texture
-    //     side: THREE.DoubleSide, //show vid on front side
-    //     toneMapped: false // turn off tone mapping
-    // })
-    let pos = new THREE.Vector3(0.745769, -0.332765, -3.57589)
+    let vidMaterial = new THREE.MeshBasicMaterial({
+        map: vid_texture, //set material Property to video texture
+        side: THREE.FrontSide, //show vid on front side
+        toneMapped: false // turn off tone mapping
+    })
+    let pos = new THREE.Vector3(x, y, z)
 
     const geometry = new THREE.PlaneGeometry(1.19775, 0.749114);
-    // TODO set to video materail
-    const screen_mesh = new THREE.Mesh(geometry, material);
-    // screen_mesh.position.copy(pos);
-    screen_mesh.position.set(.5, .5, .5)
-    screen_mesh.rotation.y = -0.349066
+    const screen_mesh = new THREE.Mesh(geometry, vidMaterial);
+    screen_mesh.position.copy(pos);
+    // screen_mesh.position.set(.5, .5, .5)
+    screen_mesh.rotation.y = rotateY
     // screen_mesh.rotation.copy(object.rotation);
     // screen_mesh.scale.copy(object.scale);
     scene.add(screen_mesh);
-
-    // const div = document.createElement('div');
-    // div.style.width = '100px';
-    // div.style.height = '100px';
-    // div.style.background = 'red';
-    // div.style.opacity = 1;
-    // div.classList.add('contains_screen');
-
-    // const img = document.createElement("img");
-    // img.setAttribute('id', 'imgOne')
-    // img.src = vidOne
-    // img.setAttribute('alt', "screen video here")
-    // div.appendChild(img);
-
-    // const h1 = document.createElement("h1");
-    // h1.style.fontSize = '200px';
-    // h1.style.color = 'orange';
-    // h1.append('hello there')
-    // div.appendChild(h1);
-    // // location
-
-    // let object = new CSS3DObject(div);
-    // object.position.copy(pos);
-    // object.rotation.y = -0.349066
-    // cssScene.add(object);
-    // console.log(object);
-    // size
-
-
 }
 
 const onMouseWheel = (e) => {

@@ -16,12 +16,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/getUrl.js */ "./node_modules/css-loader/dist/runtime/getUrl.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__);
 // Imports
 
 
+
+var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require__(/*! ../assets/Satoshi-Regular.ttf */ "./src/assets/Satoshi-Regular.ttf"), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_1___ = new URL(/* asset import */ __webpack_require__(/*! ../assets/OpenSans-VariableFont_wdth,wght.ttf */ "./src/assets/OpenSans-VariableFont_wdth,wght.ttf"), __webpack_require__.b);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
+var ___CSS_LOADER_URL_REPLACEMENT_1___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_1___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\n  margin: 0;\n  padding: 0;\n}\n\nhtml, body {\n  height: 100vh;\n  margin: 0 auto;\n  overflow: hidden;\n}\n\n#cssRenderer {\n  position: absolute;\n  top: 0;\n  opacity: 0.15;\n  background-color: purple;\n  user-select: none;\n  pointer-events: none;\n}\n\n#imgOne {\n  width: 100%;\n  height: 100%;\n  background-color: deepskyblue;\n  border: 0;\n}\n\n#screen_one {\n  display: none;\n}", "",{"version":3,"sources":["webpack://./src/styles/main.scss"],"names":[],"mappings":"AAAA;EACI,SAAA;EACA,UAAA;AACJ;;AAEA;EACI,aAAA;EACA,cAAA;EACA,gBAAA;AACJ;;AAaA;EACI,kBAAA;EACA,MAAA;EACA,aAAA;EAEA,wBAAA;EAGA,iBAAA;EACA,oBAAA;AAbJ;;AAeA;EACI,WAAA;EACA,YAAA;EACA,6BAAA;EACA,SAAA;AAZJ;;AAcA;EACI,aAAA;AAXJ","sourcesContent":["*{\n    margin: 0;\n    padding: 0;\n}\n\nhtml, body{\n    height: 100vh;\n    margin: 0 auto;\n    overflow: hidden;\n}\n// #overlay{\n//     font-size: 20rem;\n//     position: absolute;\n//     z-index: 100;\n//     top: 0;\n//     left: 0;\n//     height: 200px;\n//     width: 200px;\n//     background-color: #ff0000;\n// }\n#renderer{\n}\n#cssRenderer{\n    position: absolute;\n    top: 0;\n    opacity: .15;\n    // TODO MAKE SURE TO REMOVE THIS\n    background-color: purple;\n    // height: 100px;\n    // width: 100px;\n    user-select: none;\n    pointer-events: none;\n}\n#imgOne{\n    width: 100%;\n    height: 100%;\n    background-color: deepskyblue;\n    border: 0;\n}\n#screen_one{\n    display: none;\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "@font-face {\n  font-family: satoshi;\n  src: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n}\n@font-face {\n  font-family: open_sans;\n  src: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ");\n}\n* {\n  margin: 0;\n  padding: 0;\n  font-family: open_sans;\n}\n\nhtml, body {\n  height: 100vh;\n  width: 100vw;\n  margin: 0 auto;\n  overflow: hidden;\n}\n\n#overlay {\n  position: absolute;\n  top: 0;\n  right: 0;\n  font-size: 1rem;\n  z-index: 1000;\n  position: absolute !important;\n  z-index: 100;\n  height: 300px;\n  width: 250px;\n  background-color: white;\n  border: 0 0 1px 1px solid black;\n  padding-top: 0.5em;\n  border-bottom-left-radius: 0.5rem;\n  border-bottom-right-radius: 0.5rem;\n  padding: 0.5em 0.4em 0.4em;\n  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;\n}\n\nh2 {\n  font-family: satoshi;\n  text-decoration: underline;\n  text-align: center;\n  user-select: none;\n}\n\n.one_app {\n  display: grid;\n  grid-template-columns: 4fr 1fr 4fr;\n  margin-top: 0.4rem;\n}\n\n.one_app > :nth-child(2) {\n  text-align: center;\n}\n\n.one_app > :first-child {\n  justify-items: end;\n}\n\n.one_app > :last-child {\n  justify-items: start;\n}\n\np {\n  white-space: nowrap;\n}\n\na {\n  cursor: pointer;\n  background-color: #2191FB;\n  border: none;\n  border-radius: 2rem;\n  color: white;\n  white-space: nowrap;\n  text-decoration: none;\n  padding: 0.1em 0.2em;\n  text-align: center;\n}\n\n.links > a {\n  display: table;\n  margin: 0 auto;\n  margin-top: 0.4rem;\n}\n\n.email {\n  margin: 0 auto;\n  width: 9rem;\n  height: 1.5em;\n  background-color: whitesmoke;\n  display: flex;\n  margin-top: 0.4rem;\n  border-radius: 0.4rem;\n}\n\n.email_one {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.email_one > h4 {\n  color: grey;\n  font-size: 0.6em;\n  width: 80%;\n}\n\n.email_two {\n  width: 20%;\n  height: 100%;\n  background-color: #2191FB;\n  border-bottom-right-radius: 0.4rem;\n  border-top-right-radius: 0.4rem;\n}\n\n/* #renderer{\n}\n #cssRenderer{\n     position: absolute;\n     top: 0;\n     right: 0;\n     background-color: orange;\n     opacity: .2;\n     user-select: none;\n     pointer-events: none;\n } */\n#screen_one {\n  display: none;\n}\n\n#screen_two {\n  display: none;\n}", "",{"version":3,"sources":["webpack://./src/styles/main.scss"],"names":[],"mappings":"AAAA;EACI,oBAAA;EACA,4CAAA;AACJ;AACA;EACI,sBAAA;EACA,4CAAA;AACJ;AACA;EACI,SAAA;EACA,UAAA;EACA,sBAAA;AACJ;;AAEA;EACI,aAAA;EACA,YAAA;EACA,cAAA;EACA,gBAAA;AACJ;;AACA;EACI,kBAAA;EACA,MAAA;EACA,QAAA;EACA,eAAA;EACA,aAAA;EACA,6BAAA;EACA,YAAA;EACA,aAAA;EACA,YAAA;EACA,uBAAA;EACA,+BAAA;EACA,kBAAA;EACA,iCAAA;EACA,kCAAA;EACA,0BAAA;EACA,qDAAA;AAEJ;;AAAA;EACI,oBAAA;EACA,0BAAA;EACA,kBAAA;EACA,iBAAA;AAGJ;;AADA;EACI,aAAA;EACA,kCAAA;EACA,kBAAA;AAIJ;;AAFA;EACI,kBAAA;AAKJ;;AAHA;EACI,kBAAA;AAMJ;;AAJA;EACI,oBAAA;AAOJ;;AAJA;EACI,mBAAA;AAOJ;;AALA;EACI,eAAA;EACA,yBAAA;EACA,YAAA;EACA,mBAAA;EACA,YAAA;EACA,mBAAA;EACA,qBAAA;EACA,oBAAA;EACA,kBAAA;AAQJ;;AANA;EACI,cAAA;EACA,cAAA;EACA,kBAAA;AASJ;;AANA;EACI,cAAA;EACA,WAAA;EACA,aAAA;EACA,4BAAA;EACA,aAAA;EACA,kBAAA;EAEA,qBAAA;AAQJ;;AANA;EACI,WAAA;EACA,YAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;AASJ;;AAPA;EACI,WAAA;EACA,gBAAA;EACA,UAAA;AAUJ;;AARA;EACI,UAAA;EACA,YAAA;EACA,yBAAA;EACA,kCAAA;EACA,+BAAA;AAWJ;;AAJA;;;;;;;;;;IAAA;AAWA;EACI,aAAA;AAOJ;;AALA;EACI,aAAA;AAQJ","sourcesContent":["@font-face {\n    font-family: satoshi;\n    src: url(../assets/Satoshi-Regular.ttf);\n}\n@font-face {\n    font-family: open_sans;\n    src: url(../assets/OpenSans-VariableFont_wdth\\,wght.ttf);\n}\n*{\n    margin: 0;\n    padding: 0;\n    font-family: open_sans;\n}\n\nhtml, body{\n    height: 100vh;\n    width: 100vw;\n    margin: 0 auto;\n    overflow: hidden;\n}\n#overlay{\n    position: absolute;\n    top: 0;\n    right: 0;\n    font-size: 1rem;\n    z-index: 1000;\n    position: absolute !important;\n    z-index: 100;\n    height: 300px;\n    width: 250px;\n    background-color: white;\n    border: 0 0 1px 1px  solid black;\n    padding-top: .5em;\n    border-bottom-left-radius: .5rem;\n    border-bottom-right-radius: .5rem;\n    padding: .5em  .4em .4em;\n    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;\n}\nh2{\n    font-family: satoshi;\n    text-decoration: underline;\n    text-align: center;\n    user-select: none;\n}\n.one_app{\n    display: grid;\n    grid-template-columns: 4fr 1fr 4fr;\n    margin-top: .4rem;\n}\n.one_app > :nth-child(2){\n    text-align: center;\n}\n.one_app >:first-child{\n    justify-items: end;\n}\n.one_app >:last-child{\n    justify-items: start;\n}\n\np{\n    white-space: nowrap;\n}\na{\n    cursor: pointer;\n    background-color: #2191FB;\n    border: none;\n    border-radius: 2rem;\n    color: white;\n    white-space: nowrap;\n    text-decoration: none;\n    padding: .1em .2em;\n    text-align: center;\n}\n.links > a{\n    display: table;\n    margin: 0 auto;\n    margin-top: .4rem;\n}\n\n.email{\n    margin: 0 auto;\n    width: 9rem;\n    height: 1.5em;\n    background-color: whitesmoke;\n    display: flex;\n    margin-top: .4rem;\n    // padding: .5em 0;\n    border-radius: .4rem;\n}\n.email_one{\n    width: 100%;\n    height: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.email_one > h4{\n    color: grey;\n    font-size: .6em;\n    width: 80%;\n}\n.email_two{\n    width: 20%;\n    height: 100%;\n    background-color: #2191FB;\n    border-bottom-right-radius:.4rem ;\n    border-top-right-radius: .4rem;\n}\n\n\n\n\n\n/* #renderer{\n}\n #cssRenderer{\n     position: absolute;\n     top: 0;\n     right: 0;\n     background-color: orange;\n     opacity: .2;\n     user-select: none;\n     pointer-events: none;\n } */\n#screen_one{\n    display: none;\n}\n#screen_two{\n    display: none;\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -139,6 +146,44 @@ module.exports = function (cssWithMappingToString) {
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/runtime/getUrl.js":
+/*!********************************************************!*\
+  !*** ./node_modules/css-loader/dist/runtime/getUrl.js ***!
+  \********************************************************/
+/***/ ((module) => {
+
+
+
+module.exports = function (url, options) {
+  if (!options) {
+    options = {};
+  }
+
+  if (!url) {
+    return url;
+  }
+
+  url = String(url.__esModule ? url.default : url); // If url is already wrapped in quotes, remove them
+
+  if (/^['"].*['"]$/.test(url)) {
+    url = url.slice(1, -1);
+  }
+
+  if (options.hash) {
+    url += options.hash;
+  } // Should url be wrapped?
+  // See https://drafts.csswg.org/css-values-3/#urls
+
+
+  if (/["'() \t\n]|(%20)/.test(url) || options.needQuotes) {
+    return "\"".concat(url.replace(/"/g, '\\"').replace(/\n/g, "\\n"), "\"");
+  }
+
+  return url;
+};
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/runtime/sourceMaps.js":
 /*!************************************************************!*\
   !*** ./node_modules/css-loader/dist/runtime/sourceMaps.js ***!
@@ -167,6 +212,90 @@ module.exports = function (item) {
 
   return [content].join("\n");
 };
+
+/***/ }),
+
+/***/ "./src/assets/rainbow_bk.png":
+/*!***********************************!*\
+  !*** ./src/assets/rainbow_bk.png ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/rainbow_bk.fb6808c80942746915260c3b5305ed43.png");
+
+/***/ }),
+
+/***/ "./src/assets/rainbow_dn.png":
+/*!***********************************!*\
+  !*** ./src/assets/rainbow_dn.png ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/rainbow_dn.15817015acb6e9d4dc61b7d21fe7583e.png");
+
+/***/ }),
+
+/***/ "./src/assets/rainbow_ft.png":
+/*!***********************************!*\
+  !*** ./src/assets/rainbow_ft.png ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/rainbow_ft.9adf14c128069bb7bd84b9735d00e49d.png");
+
+/***/ }),
+
+/***/ "./src/assets/rainbow_lf.png":
+/*!***********************************!*\
+  !*** ./src/assets/rainbow_lf.png ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/rainbow_lf.6d06e81462d58baf68cb600d106d3231.png");
+
+/***/ }),
+
+/***/ "./src/assets/rainbow_rt.png":
+/*!***********************************!*\
+  !*** ./src/assets/rainbow_rt.png ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/rainbow_rt.865a21fbf03f9677534d798a1498f63c.png");
+
+/***/ }),
+
+/***/ "./src/assets/rainbow_up.png":
+/*!***********************************!*\
+  !*** ./src/assets/rainbow_up.png ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/rainbow_up.18b9f06562bdcd73c6fa23b2d79bc143.png");
 
 /***/ }),
 
@@ -530,83 +659,33 @@ module.exports = styleTagTransform;
 
 /***/ }),
 
+/***/ "./src/assets/OpenSans-VariableFont_wdth,wght.ttf":
+/*!********************************************************!*\
+  !*** ./src/assets/OpenSans-VariableFont_wdth,wght.ttf ***!
+  \********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__.p + "assets/ceb05254cedfa895b512.ttf";
+
+/***/ }),
+
+/***/ "./src/assets/Satoshi-Regular.ttf":
+/*!****************************************!*\
+  !*** ./src/assets/Satoshi-Regular.ttf ***!
+  \****************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__.p + "assets/fe762acc7e97cb612805.ttf";
+
+/***/ }),
+
 /***/ "./src/assets/models/scene.gltf":
 /*!**************************************!*\
   !*** ./src/assets/models/scene.gltf ***!
   \**************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "assets/dabc78a624334c92a39c.gltf";
-
-/***/ }),
-
-/***/ "./src/assets/rainbow_bk.png":
-/*!***********************************!*\
-  !*** ./src/assets/rainbow_bk.png ***!
-  \***********************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports = __webpack_require__.p + "assets/fb6808c8094274691526.png";
-
-/***/ }),
-
-/***/ "./src/assets/rainbow_dn.png":
-/*!***********************************!*\
-  !*** ./src/assets/rainbow_dn.png ***!
-  \***********************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports = __webpack_require__.p + "assets/15817015acb6e9d4dc61.png";
-
-/***/ }),
-
-/***/ "./src/assets/rainbow_ft.png":
-/*!***********************************!*\
-  !*** ./src/assets/rainbow_ft.png ***!
-  \***********************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports = __webpack_require__.p + "assets/9adf14c128069bb7bd84.png";
-
-/***/ }),
-
-/***/ "./src/assets/rainbow_lf.png":
-/*!***********************************!*\
-  !*** ./src/assets/rainbow_lf.png ***!
-  \***********************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports = __webpack_require__.p + "assets/6d06e81462d58baf68cb.png";
-
-/***/ }),
-
-/***/ "./src/assets/rainbow_rt.png":
-/*!***********************************!*\
-  !*** ./src/assets/rainbow_rt.png ***!
-  \***********************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports = __webpack_require__.p + "assets/865a21fbf03f9677534d.png";
-
-/***/ }),
-
-/***/ "./src/assets/rainbow_up.png":
-/*!***********************************!*\
-  !*** ./src/assets/rainbow_up.png ***!
-  \***********************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports = __webpack_require__.p + "assets/18b9f06562bdcd73c6fa.png";
-
-/***/ }),
-
-/***/ "./src/assets/vidOne.gif":
-/*!*******************************!*\
-  !*** ./src/assets/vidOne.gif ***!
-  \*******************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports = __webpack_require__.p + "assets/3f56de7f32090b252bfd.gif";
+module.exports = __webpack_require__.p + "assets/634f2dc5d1dde00bbded.gltf";
 
 /***/ }),
 
@@ -56444,331 +56523,6 @@ function toTrianglesDrawMode( geometry, drawMode ) {
 
 /***/ }),
 
-/***/ "./node_modules/three/examples/jsm/renderers/CSS3DRenderer.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/three/examples/jsm/renderers/CSS3DRenderer.js ***!
-  \********************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "CSS3DObject": () => (/* binding */ CSS3DObject),
-/* harmony export */   "CSS3DRenderer": () => (/* binding */ CSS3DRenderer),
-/* harmony export */   "CSS3DSprite": () => (/* binding */ CSS3DSprite)
-/* harmony export */ });
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
-
-
-/**
- * Based on http://www.emagix.net/academic/mscs-project/item/camera-sync-with-css3-and-webgl-threejs
- */
-
-const _position = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3();
-const _quaternion = new three__WEBPACK_IMPORTED_MODULE_0__.Quaternion();
-const _scale = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3();
-
-class CSS3DObject extends three__WEBPACK_IMPORTED_MODULE_0__.Object3D {
-
-	constructor( element = document.createElement( 'div' ) ) {
-
-		super();
-
-		this.isCSS3DObject = true;
-
-		this.element = element;
-		this.element.style.position = 'absolute';
-		this.element.style.pointerEvents = 'auto';
-		this.element.style.userSelect = 'none';
-
-		this.element.setAttribute( 'draggable', false );
-
-		this.addEventListener( 'removed', function () {
-
-			this.traverse( function ( object ) {
-
-				if ( object.element instanceof Element && object.element.parentNode !== null ) {
-
-					object.element.parentNode.removeChild( object.element );
-
-				}
-
-			} );
-
-		} );
-
-	}
-
-	copy( source, recursive ) {
-
-		super.copy( source, recursive );
-
-		this.element = source.element.cloneNode( true );
-
-		return this;
-
-	}
-
-}
-
-class CSS3DSprite extends CSS3DObject {
-
-	constructor( element ) {
-
-		super( element );
-
-		this.isCSS3DSprite = true;
-
-		this.rotation2D = 0;
-
-	}
-
-	copy( source, recursive ) {
-
-		super.copy( source, recursive );
-
-		this.rotation2D = source.rotation2D;
-
-		return this;
-
-	}
-
-}
-
-//
-
-const _matrix = new three__WEBPACK_IMPORTED_MODULE_0__.Matrix4();
-const _matrix2 = new three__WEBPACK_IMPORTED_MODULE_0__.Matrix4();
-
-class CSS3DRenderer {
-
-	constructor( parameters = {} ) {
-
-		const _this = this;
-
-		let _width, _height;
-		let _widthHalf, _heightHalf;
-
-		const cache = {
-			camera: { fov: 0, style: '' },
-			objects: new WeakMap()
-		};
-
-		const domElement = parameters.element !== undefined ? parameters.element : document.createElement( 'div' );
-
-		domElement.style.overflow = 'hidden';
-
-		this.domElement = domElement;
-
-		const cameraElement = document.createElement( 'div' );
-
-		cameraElement.style.transformStyle = 'preserve-3d';
-		cameraElement.style.pointerEvents = 'none';
-
-		domElement.appendChild( cameraElement );
-
-		this.getSize = function () {
-
-			return {
-				width: _width,
-				height: _height
-			};
-
-		};
-
-		this.render = function ( scene, camera ) {
-
-			const fov = camera.projectionMatrix.elements[ 5 ] * _heightHalf;
-
-			if ( cache.camera.fov !== fov ) {
-
-				domElement.style.perspective = camera.isPerspectiveCamera ? fov + 'px' : '';
-				cache.camera.fov = fov;
-
-			}
-
-			if ( scene.matrixWorldAutoUpdate === true ) scene.updateMatrixWorld();
-			if ( camera.parent === null && camera.matrixWorldAutoUpdate === true ) camera.updateMatrixWorld();
-
-			let tx, ty;
-
-			if ( camera.isOrthographicCamera ) {
-
-				tx = - ( camera.right + camera.left ) / 2;
-				ty = ( camera.top + camera.bottom ) / 2;
-
-			}
-
-			const cameraCSSMatrix = camera.isOrthographicCamera ?
-				'scale(' + fov + ')' + 'translate(' + epsilon( tx ) + 'px,' + epsilon( ty ) + 'px)' + getCameraCSSMatrix( camera.matrixWorldInverse ) :
-				'translateZ(' + fov + 'px)' + getCameraCSSMatrix( camera.matrixWorldInverse );
-
-			const style = cameraCSSMatrix +
-				'translate(' + _widthHalf + 'px,' + _heightHalf + 'px)';
-
-			if ( cache.camera.style !== style ) {
-
-				cameraElement.style.transform = style;
-
-				cache.camera.style = style;
-
-			}
-
-			renderObject( scene, scene, camera, cameraCSSMatrix );
-
-		};
-
-		this.setSize = function ( width, height ) {
-
-			_width = width;
-			_height = height;
-			_widthHalf = _width / 2;
-			_heightHalf = _height / 2;
-
-			domElement.style.width = width + 'px';
-			domElement.style.height = height + 'px';
-
-			cameraElement.style.width = width + 'px';
-			cameraElement.style.height = height + 'px';
-
-		};
-
-		function epsilon( value ) {
-
-			return Math.abs( value ) < 1e-10 ? 0 : value;
-
-		}
-
-		function getCameraCSSMatrix( matrix ) {
-
-			const elements = matrix.elements;
-
-			return 'matrix3d(' +
-				epsilon( elements[ 0 ] ) + ',' +
-				epsilon( - elements[ 1 ] ) + ',' +
-				epsilon( elements[ 2 ] ) + ',' +
-				epsilon( elements[ 3 ] ) + ',' +
-				epsilon( elements[ 4 ] ) + ',' +
-				epsilon( - elements[ 5 ] ) + ',' +
-				epsilon( elements[ 6 ] ) + ',' +
-				epsilon( elements[ 7 ] ) + ',' +
-				epsilon( elements[ 8 ] ) + ',' +
-				epsilon( - elements[ 9 ] ) + ',' +
-				epsilon( elements[ 10 ] ) + ',' +
-				epsilon( elements[ 11 ] ) + ',' +
-				epsilon( elements[ 12 ] ) + ',' +
-				epsilon( - elements[ 13 ] ) + ',' +
-				epsilon( elements[ 14 ] ) + ',' +
-				epsilon( elements[ 15 ] ) +
-			')';
-
-		}
-
-		function getObjectCSSMatrix( matrix ) {
-
-			const elements = matrix.elements;
-			const matrix3d = 'matrix3d(' +
-				epsilon( elements[ 0 ] ) + ',' +
-				epsilon( elements[ 1 ] ) + ',' +
-				epsilon( elements[ 2 ] ) + ',' +
-				epsilon( elements[ 3 ] ) + ',' +
-				epsilon( - elements[ 4 ] ) + ',' +
-				epsilon( - elements[ 5 ] ) + ',' +
-				epsilon( - elements[ 6 ] ) + ',' +
-				epsilon( - elements[ 7 ] ) + ',' +
-				epsilon( elements[ 8 ] ) + ',' +
-				epsilon( elements[ 9 ] ) + ',' +
-				epsilon( elements[ 10 ] ) + ',' +
-				epsilon( elements[ 11 ] ) + ',' +
-				epsilon( elements[ 12 ] ) + ',' +
-				epsilon( elements[ 13 ] ) + ',' +
-				epsilon( elements[ 14 ] ) + ',' +
-				epsilon( elements[ 15 ] ) +
-			')';
-
-			return 'translate(-50%,-50%)' + matrix3d;
-
-		}
-
-		function renderObject( object, scene, camera, cameraCSSMatrix ) {
-
-			if ( object.isCSS3DObject ) {
-
-				const visible = ( object.visible === true ) && ( object.layers.test( camera.layers ) === true );
-				object.element.style.display = ( visible === true ) ? '' : 'none';
-
-				if ( visible === true ) {
-
-					object.onBeforeRender( _this, scene, camera );
-
-					let style;
-
-					if ( object.isCSS3DSprite ) {
-
-						// http://swiftcoder.wordpress.com/2008/11/25/constructing-a-billboard-matrix/
-
-						_matrix.copy( camera.matrixWorldInverse );
-						_matrix.transpose();
-
-						if ( object.rotation2D !== 0 ) _matrix.multiply( _matrix2.makeRotationZ( object.rotation2D ) );
-
-						object.matrixWorld.decompose( _position, _quaternion, _scale );
-						_matrix.setPosition( _position );
-						_matrix.scale( _scale );
-
-						_matrix.elements[ 3 ] = 0;
-						_matrix.elements[ 7 ] = 0;
-						_matrix.elements[ 11 ] = 0;
-						_matrix.elements[ 15 ] = 1;
-
-						style = getObjectCSSMatrix( _matrix );
-
-					} else {
-
-						style = getObjectCSSMatrix( object.matrixWorld );
-
-					}
-
-					const element = object.element;
-					const cachedObject = cache.objects.get( object );
-
-					if ( cachedObject === undefined || cachedObject.style !== style ) {
-
-						element.style.transform = style;
-
-						const objectData = { style: style };
-						cache.objects.set( object, objectData );
-
-					}
-
-					if ( element.parentNode !== cameraElement ) {
-
-						cameraElement.appendChild( element );
-
-					}
-
-					object.onAfterRender( _this, scene, camera );
-
-				}
-
-			}
-
-			for ( let i = 0, l = object.children.length; i < l; i ++ ) {
-
-				renderObject( object.children[ i ], scene, camera, cameraCSSMatrix );
-
-			}
-
-		}
-
-	}
-
-}
-
-
-
-
-/***/ }),
-
 /***/ "./node_modules/three/src/constants.js":
 /*!*********************************************!*\
   !*** ./node_modules/three/src/constants.js ***!
@@ -66815,6 +66569,9 @@ module.exports = JSON.parse('{"glyphs":{"0":{"ha":936,"x_min":83,"x_max":853,"o"
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
@@ -66888,6 +66645,32 @@ module.exports = JSON.parse('{"glyphs":{"0":{"ha":936,"x_min":83,"x_max":853,"o"
 /******/ 		__webpack_require__.p = scriptUrl;
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"main": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		// no on chunks loaded
+/******/ 		
+/******/ 		// no jsonp function
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/nonce */
 /******/ 	(() => {
 /******/ 		__webpack_require__.nc = undefined;
@@ -66902,10 +66685,10 @@ var __webpack_exports__ = {};
   \***********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _styles_main_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./styles/main.scss */ "./src/styles/main.scss");
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
-/* harmony import */ var three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! three/examples/jsm/controls/OrbitControls */ "./node_modules/three/examples/jsm/controls/OrbitControls.js");
-/* harmony import */ var three_src_helpers_AxesHelper_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! three/src/helpers/AxesHelper.js */ "./node_modules/three/src/helpers/AxesHelper.js");
-/* harmony import */ var three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! three/examples/jsm/loaders/GLTFLoader.js */ "./node_modules/three/examples/jsm/loaders/GLTFLoader.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+/* harmony import */ var three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! three/examples/jsm/controls/OrbitControls */ "./node_modules/three/examples/jsm/controls/OrbitControls.js");
+/* harmony import */ var three_src_helpers_AxesHelper_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! three/src/helpers/AxesHelper.js */ "./node_modules/three/src/helpers/AxesHelper.js");
+/* harmony import */ var three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! three/examples/jsm/loaders/GLTFLoader.js */ "./node_modules/three/examples/jsm/loaders/GLTFLoader.js");
 /* harmony import */ var _assets_satoshi_light_regular_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./assets/satoshi_light_regular.json */ "./src/assets/satoshi_light_regular.json");
 /* harmony import */ var _assets_rainbow_ft_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./assets/rainbow_ft.png */ "./src/assets/rainbow_ft.png");
 /* harmony import */ var _assets_rainbow_bk_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./assets/rainbow_bk.png */ "./src/assets/rainbow_bk.png");
@@ -66914,8 +66697,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _assets_rainbow_rt_png__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./assets/rainbow_rt.png */ "./src/assets/rainbow_rt.png");
 /* harmony import */ var _assets_rainbow_lf_png__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./assets/rainbow_lf.png */ "./src/assets/rainbow_lf.png");
 /* harmony import */ var _assets_models_scene_gltf__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./assets/models/scene.gltf */ "./src/assets/models/scene.gltf");
-/* harmony import */ var three_addons_renderers_CSS3DRenderer_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! three/addons/renderers/CSS3DRenderer.js */ "./node_modules/three/examples/jsm/renderers/CSS3DRenderer.js");
-/* harmony import */ var _assets_vidOne_gif__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./assets/vidOne.gif */ "./src/assets/vidOne.gif");
 
 
 
@@ -66931,8 +66712,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
- // import vidOneMp4 from "./assets/video_loop_2.mp4";
 
 
 var scene, cssScene, camera, renderer, cssRenderer, controls, clock, mixer;
@@ -66940,14 +66719,14 @@ var player = {
   height: 1.8
 };
 var USE_WIREFRAME = true;
-var vidOne_Texture;
-var material = new three__WEBPACK_IMPORTED_MODULE_10__.MeshBasicMaterial({
+var vid_texture;
+var material = new three__WEBPACK_IMPORTED_MODULE_9__.MeshBasicMaterial({
   wireframe: USE_WIREFRAME,
   wireframeLinewidth: 1,
-  side: three__WEBPACK_IMPORTED_MODULE_10__.DoubleSide
+  side: three__WEBPACK_IMPORTED_MODULE_9__.DoubleSide
 }); // const material = new THREE.MeshBasicMaterial({ color: 0x69934, wireframe: USE_WIREFRAME, wireframeLinewidth: 1, side: THREE.FrontSide });
 
-var loadManager = new three__WEBPACK_IMPORTED_MODULE_10__.LoadingManager(); // passing in the loadManager to every instance of a loader such as GLTFLoader etc,
+var loadManager = new three__WEBPACK_IMPORTED_MODULE_9__.LoadingManager(); // passing in the loadManager to every instance of a loader such as GLTFLoader etc,
 // gltf loader
 
 loadManager.onStart = function (url, item, total) {
@@ -66967,23 +66746,23 @@ loadManager.onError = function (url) {
   console.log('err loading file =>', url);
 };
 
-var gltfLoader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_11__.GLTFLoader(loadManager);
+var gltfLoader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_10__.GLTFLoader(loadManager);
 
 var init = function init() {
-  scene = new three__WEBPACK_IMPORTED_MODULE_10__.Scene();
-  cssScene = new three__WEBPACK_IMPORTED_MODULE_10__.Scene();
-  clock = new three__WEBPACK_IMPORTED_MODULE_10__.Clock(); // const addScreen = new THREE.Group()
+  scene = new three__WEBPACK_IMPORTED_MODULE_9__.Scene();
+  cssScene = new three__WEBPACK_IMPORTED_MODULE_9__.Scene();
+  clock = new three__WEBPACK_IMPORTED_MODULE_9__.Clock(); // const addScreen = new THREE.Group()
   // addScreen.add(new screensRender('99', 0, 0, 240, 0))
   // cssScene.add(addScreen);
 
-  var hemiLight = new three__WEBPACK_IMPORTED_MODULE_10__.HemisphereLight(0xffffff, 0xffffff, 1);
+  var hemiLight = new three__WEBPACK_IMPORTED_MODULE_9__.HemisphereLight(0xffffff, 0xffffff, 1);
   hemiLight.color.setHSL(0.2, .2, 0.1);
   hemiLight.groundColor.setHSL(0.095, 1, 0.75);
   hemiLight.position.set(0, 2, 0);
   scene.add(hemiLight);
-  var hemiLightHelper = new three__WEBPACK_IMPORTED_MODULE_10__.HemisphereLightHelper(hemiLight, 2); // scene.add(hemiLightHelper);
+  var hemiLightHelper = new three__WEBPACK_IMPORTED_MODULE_9__.HemisphereLightHelper(hemiLight, 2); // scene.add(hemiLightHelper);
 
-  renderer = new three__WEBPACK_IMPORTED_MODULE_10__.WebGLRenderer({
+  renderer = new three__WEBPACK_IMPORTED_MODULE_9__.WebGLRenderer({
     antialias: true,
     alpha: true
   }); // renderer.setClearColor(0x000000, 0); // the default
@@ -66992,49 +66771,49 @@ var init = function init() {
   renderer.setPixelRatio(window.devicePixelRatio); // renderer.shadowMap.enabled = true;
 
   renderer.domElement.setAttribute('id', 'renderer');
-  document.body.appendChild(renderer.domElement);
-  cssRenderer = new three_addons_renderers_CSS3DRenderer_js__WEBPACK_IMPORTED_MODULE_12__.CSS3DRenderer();
-  cssRenderer.setSize(window.innerWidth, window.innerHeight);
-  cssRenderer.domElement.style.position = 'absolute';
-  cssRenderer.domElement.style.top = 0;
-  cssRenderer.domElement.style.height = '200px';
-  cssRenderer.domElement.style.width = '200px';
-  cssRenderer.domElement.setAttribute('id', 'cssRenderer');
-  document.body.appendChild(cssRenderer.domElement);
-  camera = new three__WEBPACK_IMPORTED_MODULE_10__.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.lookAt(new three__WEBPACK_IMPORTED_MODULE_10__.Vector3(0, player.height, 0));
-  camera.position.y = 3;
+  document.body.appendChild(renderer.domElement); // cssRenderer = new CSS3DRenderer()
+  // cssRenderer.setSize(window.innerWidth, window.innerHeight);
+  // cssRenderer.domElement.style.height = '300px';
+  // cssRenderer.domElement.style.width = '250px';
+  // cssRenderer.domElement.setAttribute('id', 'cssRenderer')
+  // // const div = document.createElement('div');
+  // // div.style.backgroundColor = 'blue';
+  // // div.style.position = 'absolute';
+  // // div.style.top = '0px';
+  // // div.style.right = '0px';
+  // // div.height = '100px';
+  // // div.width = '100px';
+  // // let object = new CSS3DObject(div);
+  // // cssScene.add(object);
+  // document.body.appendChild(cssRenderer.domElement);
+
+  camera = new three__WEBPACK_IMPORTED_MODULE_9__.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000); // camera.position.y = 3;
+
   camera.position.z -= 0.01;
-  controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_13__.OrbitControls(camera, renderer.domElement, cssRenderer.domElement);
+  controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_11__.OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.enableZoom = false;
   controls.rotateSpeed = -0.30;
   controls.enablePan = false;
-  scene.add(camera); // loadModels()
+  scene.add(camera);
+  loadModels();
+  screensRender("screen_one", 0.745769, -0.332765, -3.57589, -0.349066);
+  screensRender("screen_two", -0.72123, -0.332765, -3.59841, 0.349066); // axe helper
 
-  screensRender(); // axe helper
-
-  var axesHelper = new three_src_helpers_AxesHelper_js__WEBPACK_IMPORTED_MODULE_14__.AxesHelper(10); // scene.add(axesHelper);
-  //FIXME finish this
-  // const overlay = document.createElement("div");
-  // overlay.innerHTML = "<h1> hello css </h1>"
-  // let obj = new CSS3DObject(overlay)
-  // obj.position.set(0, 0, 0)
-  // scene.add(obj);
-
+  var axesHelper = new three_src_helpers_AxesHelper_js__WEBPACK_IMPORTED_MODULE_12__.AxesHelper(10);
   window.addEventListener('resize', onWindowResize); // controls for drag and scroll
 
   document.addEventListener('wheel', onMouseWheel);
+  camera.rotation.y = 90;
   animate();
 };
 
 var animate = function animate() {
   // this loops to create frames
   requestAnimationFrame(animate); // update video texture
+  // vid_texture.needsUpdate = true;
 
-  vidOne_Texture.needsUpdate = true;
-  renderer.render(scene, camera);
-  cssRenderer.render(cssScene, camera);
+  renderer.render(scene, camera); // cssRenderer.render(cssScene, camera);
 };
 
 var loadModels = function loadModels() {
@@ -67047,94 +66826,73 @@ var loadModels = function loadModels() {
   });
   var materialArr = []; // load the images as texture
 
-  var texture_ft = new three__WEBPACK_IMPORTED_MODULE_10__.TextureLoader().load(_assets_rainbow_ft_png__WEBPACK_IMPORTED_MODULE_2__);
-  var texture_bk = new three__WEBPACK_IMPORTED_MODULE_10__.TextureLoader().load(_assets_rainbow_bk_png__WEBPACK_IMPORTED_MODULE_3__);
-  var texture_up = new three__WEBPACK_IMPORTED_MODULE_10__.TextureLoader().load(_assets_rainbow_up_png__WEBPACK_IMPORTED_MODULE_4__);
-  var texture_dn = new three__WEBPACK_IMPORTED_MODULE_10__.TextureLoader().load(_assets_rainbow_dn_png__WEBPACK_IMPORTED_MODULE_5__);
-  var texture_rt = new three__WEBPACK_IMPORTED_MODULE_10__.TextureLoader().load(_assets_rainbow_rt_png__WEBPACK_IMPORTED_MODULE_6__);
-  var texture_lf = new three__WEBPACK_IMPORTED_MODULE_10__.TextureLoader().load(_assets_rainbow_lf_png__WEBPACK_IMPORTED_MODULE_7__);
-  materialArr.push(new three__WEBPACK_IMPORTED_MODULE_10__.MeshBasicMaterial({
+  var texture_ft = new three__WEBPACK_IMPORTED_MODULE_9__.TextureLoader().load(_assets_rainbow_ft_png__WEBPACK_IMPORTED_MODULE_2__["default"]);
+  var texture_bk = new three__WEBPACK_IMPORTED_MODULE_9__.TextureLoader().load(_assets_rainbow_bk_png__WEBPACK_IMPORTED_MODULE_3__["default"]);
+  var texture_up = new three__WEBPACK_IMPORTED_MODULE_9__.TextureLoader().load(_assets_rainbow_up_png__WEBPACK_IMPORTED_MODULE_4__["default"]);
+  var texture_dn = new three__WEBPACK_IMPORTED_MODULE_9__.TextureLoader().load(_assets_rainbow_dn_png__WEBPACK_IMPORTED_MODULE_5__["default"]);
+  var texture_rt = new three__WEBPACK_IMPORTED_MODULE_9__.TextureLoader().load(_assets_rainbow_rt_png__WEBPACK_IMPORTED_MODULE_6__["default"]);
+  var texture_lf = new three__WEBPACK_IMPORTED_MODULE_9__.TextureLoader().load(_assets_rainbow_lf_png__WEBPACK_IMPORTED_MODULE_7__["default"]);
+  materialArr.push(new three__WEBPACK_IMPORTED_MODULE_9__.MeshBasicMaterial({
     map: texture_ft
   }));
-  materialArr.push(new three__WEBPACK_IMPORTED_MODULE_10__.MeshBasicMaterial({
+  materialArr.push(new three__WEBPACK_IMPORTED_MODULE_9__.MeshBasicMaterial({
     map: texture_bk
   }));
-  materialArr.push(new three__WEBPACK_IMPORTED_MODULE_10__.MeshBasicMaterial({
+  materialArr.push(new three__WEBPACK_IMPORTED_MODULE_9__.MeshBasicMaterial({
     map: texture_up
   }));
-  materialArr.push(new three__WEBPACK_IMPORTED_MODULE_10__.MeshBasicMaterial({
+  materialArr.push(new three__WEBPACK_IMPORTED_MODULE_9__.MeshBasicMaterial({
     map: texture_dn
   }));
-  materialArr.push(new three__WEBPACK_IMPORTED_MODULE_10__.MeshBasicMaterial({
+  materialArr.push(new three__WEBPACK_IMPORTED_MODULE_9__.MeshBasicMaterial({
     map: texture_rt
   }));
-  materialArr.push(new three__WEBPACK_IMPORTED_MODULE_10__.MeshBasicMaterial({
+  materialArr.push(new three__WEBPACK_IMPORTED_MODULE_9__.MeshBasicMaterial({
     map: texture_lf
   })); // this will make it so the texture is applied to the outside instead of on the cubemap
 
   for (var i = 0; i < 6; i++) {
-    materialArr[i].side = three__WEBPACK_IMPORTED_MODULE_10__.BackSide;
+    materialArr[i].side = three__WEBPACK_IMPORTED_MODULE_9__.BackSide;
   }
 
-  var skyBoxGeo = new three__WEBPACK_IMPORTED_MODULE_10__.BoxGeometry(10, 10, 10);
-  var skyBox = new three__WEBPACK_IMPORTED_MODULE_10__.Mesh(skyBoxGeo, materialArr);
+  var skyBoxGeo = new three__WEBPACK_IMPORTED_MODULE_9__.BoxGeometry(10, 10, 10);
+  var skyBox = new three__WEBPACK_IMPORTED_MODULE_9__.Mesh(skyBoxGeo, materialArr);
   skyBox.position.y = 1;
   scene.add(skyBox);
-};
+}; // id, pos(xyz), roation.y
 
-var screensRender = function screensRender() {
-  var screenOne = document.getElementById("screen_one"); // screenOne.src = './assets/video_loop_2.mp4'
 
-  screenOne.load();
-  screenOne.play();
-  vidOne_Texture = new three__WEBPACK_IMPORTED_MODULE_10__.VideoTexture(screenOne);
-  vidOne_Texture.minFilter = three__WEBPACK_IMPORTED_MODULE_10__.LinearFilter;
-  vidOne_Texture.magFilter = three__WEBPACK_IMPORTED_MODULE_10__.LinearFilter;
-  var vidMaterial = new three__WEBPACK_IMPORTED_MODULE_10__.MeshBasicMaterial({
-    map: vidOne_Texture,
+var screensRender = function screensRender(id, x, y, z, rotateY) {
+  var screen = document.getElementById(id); // console.log(screen_one)
+  // screen.load()
+
+  screen.play();
+  vid_texture = new three__WEBPACK_IMPORTED_MODULE_9__.VideoTexture(screen);
+  vid_texture.minFilter = three__WEBPACK_IMPORTED_MODULE_9__.LinearFilter;
+  vid_texture.magFilter = three__WEBPACK_IMPORTED_MODULE_9__.LinearFilter;
+  var vidMaterial = new three__WEBPACK_IMPORTED_MODULE_9__.MeshBasicMaterial({
+    map: vid_texture,
     //set material Property to video texture
-    side: three__WEBPACK_IMPORTED_MODULE_10__.DoubleSide,
+    side: three__WEBPACK_IMPORTED_MODULE_9__.FrontSide,
     //show vid on front side
     toneMapped: false // turn off tone mapping
 
   });
-  var pos = new three__WEBPACK_IMPORTED_MODULE_10__.Vector3(0.745769, -0.332765, -3.57589);
-  var geometry = new three__WEBPACK_IMPORTED_MODULE_10__.PlaneGeometry(1.19775, 0.749114);
-  var screen_mesh = new three__WEBPACK_IMPORTED_MODULE_10__.Mesh(geometry, vidMaterial); // screen_mesh.position.copy(pos);
+  var pos = new three__WEBPACK_IMPORTED_MODULE_9__.Vector3(x, y, z);
+  var geometry = new three__WEBPACK_IMPORTED_MODULE_9__.PlaneGeometry(1.19775, 0.749114);
+  var screen_mesh = new three__WEBPACK_IMPORTED_MODULE_9__.Mesh(geometry, vidMaterial);
+  screen_mesh.position.copy(pos); // screen_mesh.position.set(.5, .5, .5)
 
-  screen_mesh.position.set(.5, .5, .5);
-  screen_mesh.rotation.y = -0.349066; // screen_mesh.rotation.copy(object.rotation);
+  screen_mesh.rotation.y = rotateY; // screen_mesh.rotation.copy(object.rotation);
   // screen_mesh.scale.copy(object.scale);
 
-  scene.add(screen_mesh); // const div = document.createElement('div');
-  // div.style.width = '100px';
-  // div.style.height = '100px';
-  // div.style.background = 'red';
-  // div.style.opacity = 1;
-  // div.classList.add('contains_screen');
-  // const img = document.createElement("img");
-  // img.setAttribute('id', 'imgOne')
-  // img.src = vidOne
-  // img.setAttribute('alt', "screen video here")
-  // div.appendChild(img);
-  // const h1 = document.createElement("h1");
-  // h1.style.fontSize = '200px';
-  // h1.style.color = 'orange';
-  // h1.append('hello there')
-  // div.appendChild(h1);
-  // // location
-  // let object = new CSS3DObject(div);
-  // object.position.copy(pos);
-  // object.rotation.y = -0.349066
-  // cssScene.add(object);
-  // console.log(object);
-  // size
+  scene.add(screen_mesh);
 };
 
 var onMouseWheel = function onMouseWheel(e) {
   var fov = camera.fov + e.deltaY * 0.05; // console.log((fov));
 
-  camera.fov = three__WEBPACK_IMPORTED_MODULE_10__.MathUtils.clamp(fov, 10, 75);
+  camera.fov = three__WEBPACK_IMPORTED_MODULE_9__.MathUtils.clamp(fov, 10, 75);
   camera.updateProjectionMatrix();
 };
 
@@ -67151,4 +66909,4 @@ init();
 
 /******/ })()
 ;
-//# sourceMappingURL=main3a81855f6415620af790.js.map
+//# sourceMappingURL=mainadb5110db5e5ae819c04.js.map

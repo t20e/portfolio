@@ -3,9 +3,12 @@ const path = require('path');
 // this is the plugin that auto regenerates our dist/htmls
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const loader = require('sass-loader');
-import html from './src/template.html'
 // analyzer plugin to help see insights into app
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+// u only need the cleanwebpack plugin for production, dev mode saves to memory
+// TODO put in dev mode
+// const CleanWebPackPlugin = require('clean-webpack-plugin');
+
 
 module.exports = {
     mode: 'development',
@@ -39,7 +42,7 @@ module.exports = {
         rules: [
             {
                 // any files that end with the extension of .scss apply these loaders
-                test: /\.scss$/,
+                test: /\.(scss|css)$/i,
                 use: [
                     'style-loader', 'css-loader', 'sass-loader'
                 ]
@@ -56,8 +59,16 @@ module.exports = {
             {
                 // add images loader
                 // the i add the end of the test is for case insensitive names
-                test: /\.(png|svg|jpg|jpeg|gif)$/i,
-                type: 'asset/resource',
+                test: /\.(png|svg|jpg|jpeg|gif)$/,
+                // type: 'asset/resource',
+                use: {
+                    // file-loader needs to be installed with npm
+                    loader:'file-loader',
+                    options:{
+                        name: "[name].[hash].[ext]",
+                        outputPath : "assets"
+                    }
+                }
             },
             {
                 test: /\.(glb|gltf)$/i,
@@ -69,32 +80,14 @@ module.exports = {
                 //         options:
                 //         {
                 //             name: '[path][name].[ext]',
-                //             outputPath: 'assets/models/'
+                //             outputPath: 'assets/models'
                 //         }
                 //     }
                 // ],
             },
-            { test: /\.html$/, loader: 'html-loader?attrs[]=video:src' },
-            { test: /\.(mov|mp4)$/, loader: 'url-loader' },
             {
                 test: /\.html$/i,
-                exclude: /node_modules/,
-                use: [
-                    {
-                        loader: "html-loader",
-                        options: {
-                            sources: {
-                                list: [
-                                    {
-                                        tag: "video",
-                                        attribute: "src",
-                                        type: "src"
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                ]
+                use: ["html-loader"]
             }
               
         ]
@@ -108,6 +101,8 @@ module.exports = {
             template: path.resolve(__dirname, 'src/template.html'),
         }),
         // new BundleAnalyzerPlugin(),
+        // TODO put in dev mode
+        // new CleanWebPackPlugin(),
     ]
 }
 
