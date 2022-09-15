@@ -23,9 +23,9 @@ html, body{
     top: 0;
     right: 0;
     font-size: 1rem;
-    z-index: 1000;
+    z-index:500;
+    display: none;
     position: absolute !important;
-    z-index: 100;
     height: 250px;
     width: 200px;
     background-color: white;
@@ -59,6 +59,9 @@ h3{
 }
 .one_app{
     text-align: center;
+}
+.one_app > p, pre{
+    user-select: none;
 }
 p{
     white-space: nowrap;
@@ -99,6 +102,7 @@ a, p{
     display: flex;
     justify-content: center;
     align-items: center;
+    pointer-events: none;
 }
 .email_one > h4{
     color: grey;
@@ -106,28 +110,89 @@ a, p{
     width: 80%;
 }
 .email_two{
+    cursor: pointer;
     width: 20%;
     height: 100%;
     background-color: #2191FB;
     border-bottom-right-radius:.4rem ;
     border-top-right-radius: .4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.email_two > img{
+    user-select: none;
+    pointer-events: none;
+    height: 1rem;
+    width: 1rem;
 }
 
-
-
-
-
-/* #renderer{
+.show_resume{
+    z-index: 1001;
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    height: 70vh;
+    border-radius: .5rem;
+    padding: .5em  .4em .4em;
+    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+    width: 50vw;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
 }
- #cssRenderer{
-     position: absolute;
-     top: 0;
-     right: 0;
-     background-color: orange;
-     opacity: .2;
-     user-select: none;
-     pointer-events: none;
- } */
+.pdfBtns{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 20%;
+}
+.pdfBtns > a{
+    background-color: transparent;
+    color: #2191FB;
+    text-decoration: underline;
+}
+
+.bar_div{
+    display: none
+}
+label{
+    color: white;
+    position: relative;
+    top: -1rem;
+    position: absolute;
+    left: 50%;
+    top: 89%;
+    transform: translate(-50%, -50%);
+    font-family: satoshi;
+}
+#progress_bar{
+    width: 12rem;
+    height: 1.8rem;
+    position: absolute;
+    left: 50%;
+    top: 92%;
+    transform: translate(-50%, -50%);
+    // color: #2191FB;
+    margin-top: 0.5%;
+    accent-color: #FFCF00;
+}
+
+// #renderer{
+// }
+//  #cssRenderer{
+//      position: absolute;
+//      top: 0;
+//      right: 0;
+//      background-color: orange;
+//      opacity: .2;
+//      user-select: none;
+//      pointer-events: none;
+//  } 
 #screen_one{
     display: none;
 }

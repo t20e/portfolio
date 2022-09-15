@@ -1,8 +1,6 @@
 const path = require('path');
-
 // this is the plugin that auto regenerates our dist/htmls
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const loader = require('sass-loader');
 // analyzer plugin to help see insights into app
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 // u only need the cleanwebpack plugin for production, dev mode saves to memory
@@ -41,6 +39,12 @@ module.exports = {
         // the rules area for each file type loader
         rules: [
             {
+                test: /\.html$/,
+                use: {
+                    loader: 'html-loader',
+                }
+            },
+            {
                 // any files that end with the extension of .scss apply these loaders
                 test: /\.(scss|css)$/i,
                 use: [
@@ -53,22 +57,35 @@ module.exports = {
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
-                    options: { presets: ['@babel/preset-env'] },
+                    options: {
+                        presets: ['@babel/preset-env'],
+                    },
                 }
             },
             {
                 // add images loader
                 // the i add the end of the test is for case insensitive names
-                test: /\.(png|svg|jpg|jpeg|gif)$/,
-                // type: 'asset/resource',
-                use: {
-                    // file-loader needs to be installed with npm
-                    loader:'file-loader',
-                    options:{
-                        name: "[name].[hash].[ext]",
-                        outputPath : "assets"
+                test: /\.(png|jpg|jpeg|gif|svg)$/,
+                type: 'asset/resource',
+                // use: {
+                //     // file-loader needs to be installed with npm
+                //     loader: 'file-loader',
+                //     options: {
+                //         name: "[name].[hash].[ext]",
+                //         outputPath: "assets"
+                //     }
+                // }
+            },
+            {
+                test: /\.pdf$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]'
+                        }
                     }
-                }
+                ]
             },
             {
                 test: /\.(glb|gltf)$/i,
@@ -86,10 +103,9 @@ module.exports = {
                 // ],
             },
             {
-                test: /\.html$/i,
-                use: ["html-loader"]
-            }
-              
+                test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                type: 'asset/resource',
+              },
         ]
     },
     // add plugins here
