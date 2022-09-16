@@ -23,17 +23,15 @@ import {
     CSS3DRenderer,
     CSS3DObject,
 } from "three/addons/renderers/CSS3DRenderer.js";
-// import copyIcon from "./assets/copy-paste-logo.svg";
-// import checkIcon from "./assets/checkMarkWhite.svg";
-import pdf from "./assets/test.pdf";
-
 let scene, cssScene, camera, renderer, cssRenderer, controls, clock, mixer;
 let player = { height: 1.8 };
 let USE_WIREFRAME = true;
 let vid_texture;
-
+import afterLoad from "./afterLoad";
 const fontLoader = new FontLoader();
 const ttfLoader = new TTFLoader();
+import bodymovin from "bodymovin";
+import Lottie from "lottie-web";
 
 // const material = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true, wireframeLinewidth: 1, side: THREE.DoubleSide });
 let gltfSceneHolder, skyboxHolder;
@@ -421,36 +419,7 @@ const onWindowResize = () => {
 window.addEventListener( 'resize', onWindowResize, false );
 
 // init();
-
 window.onload = () => {
-    const copyEmail = document.querySelector(".email_two");
-    copyEmail.addEventListener("click", () => {
-        copyEmail.children[0].src = checkIcon;
-        console.log("Copied");
-        navigator.clipboard.writeText("ttavis1999@gmail.com");
-        setTimeout(() => (copyEmail.children[0].src = copyIcon), 3000);
-    });
-    const resumeBtn = document.getElementById("resume");
-    document.getElementById("download").setAttribute("href", pdf);
-
-    const resumeDiv = document.querySelector(".show_resume");
-    const pdfElement = document.createElement("embed");
-    pdfElement.style.height = "100%";
-    pdfElement.style.marginBottom = "1rem";
-    pdfElement.style.width = "100%";
-    pdfElement.src = pdf + "#toolbar";
-    resumeDiv.prepend(pdfElement);
-    const canvas = document.getElementsByTagName("canvas")[0];
-    const overlay = document.getElementById("overlay");
-    resume.addEventListener("click", () => {
-        resumeDiv.style.display = "flex";
-        canvas.style.opacity = 0.2;
-        overlay.style.opacity = 0.2;
-    });
-    document.getElementById("close").addEventListener("click", () => {
-        removeObject()
-        resumeDiv.style.display = "none";
-        overlay.style.opacity = 1;
-        canvas.style.opacity = 1;
-    });
-};
+    afterLoad(Lottie);
+    // afterLoad()
+}
