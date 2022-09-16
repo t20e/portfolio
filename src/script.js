@@ -1,16 +1,7 @@
 import "./styles/main.scss";
 import * as THREE from "three";
 import {
-    Group,
-    LoadingManager,
-    AnimationMixer,
-    AnimationClip,
-    Clock,
-    InstancedMesh,
-    Scene,
-    Mesh,
-    DirectionalLight,
-    Light,
+    LoadingManager
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { AxesHelper } from "three/src/helpers/AxesHelper.js";
@@ -34,23 +25,27 @@ import {
 } from "three/addons/renderers/CSS3DRenderer.js";
 // import copyIcon from "./assets/copy-paste-logo.svg";
 // import checkIcon from "./assets/checkMarkWhite.svg";
-import pdf from "./assets/Dahal_Resume_2021.pdf";
+import pdf from "./assets/test.pdf";
 
 let scene, cssScene, camera, renderer, cssRenderer, controls, clock, mixer;
 let player = { height: 1.8 };
 let USE_WIREFRAME = true;
 let vid_texture;
+
+const fontLoader = new FontLoader();
+const ttfLoader = new TTFLoader();
+
 // const material = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true, wireframeLinewidth: 1, side: THREE.DoubleSide });
 let gltfSceneHolder, skyboxHolder;
 let dirLight, pointLightOne, pointLightTwo, pointLightThree;
-let textMesh;
+let textMesh, numMesh;
 const progressBar = document.getElementById('progress_bar');
 const progressLabel = document.getElementsByTagName('label')[0];
 // const material = new THREE.MeshBasicMaterial({ color: 0x69934, wireframe: USE_WIREFRAME, wireframeLinewidth: 1, side: THREE.FrontSide });
 const loadManager = new LoadingManager();
 // passing in the loadManager to every instance of a loader such as GLTFLoader etc,
 // gltf loader
-const allowNextScene = false;
+let allowNextScene = false;
 loadManager.onStart = (url, item, total) => {
     scene = new THREE.Scene();
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -61,7 +56,6 @@ loadManager.onStart = (url, item, total) => {
     renderer.domElement.setAttribute("id", "loading_renderer");
     document.body.appendChild(renderer.domElement);
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-
     camera.position.z = 5
     camera.position.y = 7
     camera.position.x = -3
@@ -80,12 +74,11 @@ loadManager.onStart = (url, item, total) => {
     // axe helper
     const axesHelper = new AxesHelper(10);
     // scene.add(axesHelper);
-    window.addEventListener("resize", onWindowResize);
     // dirLight = new THREE.DirectionalLight("#F0E100", 1);
     // dirLight.castShadow = true;
     // dirLight.position.set(8, 12, 8);
     // // how much area the light will cover
-    // dirLight.shadow.camera.near = 1;
+    // dirLight.shadow.camera   .near = 1;
     // dirLight.shadow.camera.top	+= 25 ;
     // dirLight.shadow.camera.right +=25
     // dirLight.shadow.camera.left -=25
@@ -127,14 +120,6 @@ loadManager.onStart = (url, item, total) => {
     plane.receiveShadow = true;
     plane.rotation.x = - Math.PI / 2;
     scene.add(plane);
-
-    // const cone = new THREE.Mesh(new THREE.ConeGeometry(.2, 1, 32), new THREE.MeshBasicMaterial({ color: '#FF101F' }));
-    // cone.position.set(2, -.01, 2)
-    // cone.castShadow = true;
-    // scene.add(cone);
-
-    const fontLoader = new FontLoader();
-    const ttfLoader = new TTFLoader();
     let text;
     ttfLoader.load(satoshi_regular, (json) => {
         // parse the ttf json  
@@ -145,8 +130,9 @@ loadManager.onStart = (url, item, total) => {
         let prevMeshX = -3
         let addChars = setInterval(() => {
             console.log(i)
-            if(i > 15){
+            if (i > 14) {
                 clearInterval(addChars)
+                allowNextScene = true;
             }
             text = textcount[i]
             const textGeo = new TextGeometry(text, {
@@ -166,59 +152,133 @@ loadManager.onStart = (url, item, total) => {
                 // textMesh.position.x = -2.3;
                 textMesh.position.x = prevMeshX
             }
-            if(textcount[i] === 'i'){
+            if (textcount[i] === 'i') {
                 textMesh.position.x = prevMeshX + .45
-            }else if(i === 5){
+            } else if (i === 5) {
                 textMesh.position.x = prevMeshX + .21
             }
-            else{
+            else {
                 textMesh.position.x = prevMeshX + .4
             }
             prevMeshX = textMesh.position.x;
             scene.add(textMesh);
             i++
         }, 200)
-        // 'loading scene...'
     })
+    // changeProgressNum('0')
     animateLoadScreen();
 };
 const animateLoadScreen = () => {
-    // if(progressBar.value = 100) {
-    // console.log('end'); return}
-        const time = Date.now() * 0.0005;
-        pointLightOne.position.x = Math.sin(time) * 20
-        pointLightOne.position.z = Math.cos(time) * 20
-        pointLightTwo.position.z = Math.sin(time) * 20
-        pointLightTwo.position.x = Math.cos(time) * 20
-        pointLightThree.position.z = Math.sin(time * 2) * 20
-        pointLightThree.position.x = Math.cos(time * 2) * 20
+    if (progressBar.value = 100 && allowNextScene === true) {
+        console.log('end'); return
+    }
+    const time = Date.now() * 0.0005;
+    pointLightOne.position.x = Math.sin(time) * 20
+    pointLightOne.position.z = Math.cos(time) * 20
+    pointLightTwo.position.z = Math.sin(time) * 20
+    pointLightTwo.position.x = Math.cos(time) * 20
+    pointLightThree.position.z = Math.sin(time * 2) * 20
+    pointLightThree.position.x = Math.cos(time * 2) * 20
     renderer.render(scene, camera);
     requestAnimationFrame(animateLoadScreen);
 };
+let oldProgressPercentage;
 loadManager.onProgress = (url, loaded, total) => {
     // console.log(url, loaded, total);
     // console.log('progress loading')
     progressBar.value = Math.trunc((loaded / total) * 100);
     progressLabel.innerHTML = progressBar.value + '%'
+    // oldProgressPercentage = progressBar
+    // changeProgressNum(progressBar.value)
 }
-// loadManager.onLoad = () => {
-//     console.log('finished loading')
-// TODO when it does load the scene then wait a second or two and then show the new scene
-//     // TODO remove the text from, the progress_container from the dom remove the scene backgrounf color
-//     // while (scene.children.length > 0) {
-//     //     scene.remove(scene.children[0]);
-//     // }
-//     // scene.clear()
-//     renderer.renderLists.dispose();
-//     document.getElementById('loading_renderer').remove()
-//     document.querySelector('.progress__container').remove()
-//     init();
-//     document.getElementById('overlay').style.display = 'block';
+const removeObject = (obj) => {
+    // const object = scene.getObjectByProperty(numMesh.uuid );
+    // object.geometry.dispose();
+    // object.material.dispose();
+    // renderer.renderLists.dispose();
+    // console.log(obj)
+    // scene.removeObject(obj);
+    // textMesh = null;
+    // obj.parent.remove(obj);
+    // if(numMesh){
+    //     numMesh.geometry.dispose();
+    //     numMesh.material.dispose();
+    //     scene.remove(numMesh);
+    //     numMesh = undefined;
+    // }
+    console.log(progressBar.value);
+    scene.remove(obj);
+    if (obj.children.length > 0) {
+        // scene.remove( object );
+        for (var x = obj.children.length - 1; x >= 0; x--) {
+            removeObject(obj.children[x]); ``
+        }
+    }
+    if (obj.geometry) {
+        // obj.geometry.dispose();
+        obj.geometry = undefined
+    }
+    if (obj.material) {
+        // obj.material.dispose();
+        obj.material = undefined
+    }
+    if (obj.parent) {
+        obj.parent.remove(obj)
+    }
+    obj = undefined
+    console.log("MESH AFTER =>", obj)
+}
+// const changeProgressNum = (num) => {
+//     num = num + '%'
+//     console.log(numMesh)
+//     if (progressBar.value !== 0 && progressBar.value !== 100) {
+//         removeObject(numMesh)
+//         // scene.remove(numMesh)
+//     }
+//     ttfLoader.load(satoshi_regular, (json) => {
+//         let font = fontLoader.parse(json);
+//         let prevMeshX = -3
+//         const numGeo = new TextGeometry(num, {
+//             font: font,
+//             size: .5,
+//             height: .08,
+//         })
+//         numMesh = new THREE.Mesh(numGeo, [
+//             new THREE.MeshPhongMaterial({ color: '#FEEFE5' }), //front
+//             new THREE.MeshPhongMaterial({ color: '#FAAA75' }), //side
+//         ]);
+//         numMesh.castShadow = true;
+//         numMesh.receiveShadow = true;
+//         numMesh.rotation.x = -Math.PI / 2
+//         numMesh.position.y = .05
+//         numMesh.position.z = 1
+//         prevMeshX = numMesh.position.x;
+//         scene.add(numMesh);
+//         if (progressBar.value !== 0 && progressBar.value !== 100) {
+//             removeObject(numMesh)
+//         }
+//     })
 // }
+loadManager.onLoad = () => {
+    console.log('finished loading')
+    // TODO when it does load the scene then wait a second or two and then show the new scene
+    // TODO remove the text from, the progress_container from the dom remove the scene backgrounf color
+    // while (scene.children.length > 0) {
+    //     scene.remove(scene.children[0]);
+    // }
+    // scene.clear()
+    renderer.renderLists.dispose();
+    document.getElementById('loading_renderer').remove()
+    progressBar.remove()
+    progressLabel.remove()
+    init();
+    document.getElementById('overlay').style.display = 'block';
+}
 loadManager.onError = (url) => {
     console.log("err loading file =>", url);
 };
 const gltfLoader = new GLTFLoader(loadManager);
+
 
 const init = () => {
     scene = new THREE.Scene();
@@ -226,6 +286,7 @@ const init = () => {
     hemiLight.color.setHSL(0.2, 0.2, 0.1);
     hemiLight.groundColor.setHSL(0.095, 1, 0.75);
     hemiLight.position.set(0, 2, 0);
+    // hemiLight.castShadow = true;
     scene.add(hemiLight);
 
     const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 2);
@@ -235,10 +296,9 @@ const init = () => {
     // renderer.setClearColor(0x000000, 0); // the default
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.shadowMap.enabled = true;
+    // renderer.shadowMap.enabled = true;
     renderer.domElement.setAttribute("id", "renderer");
     document.body.appendChild(renderer.domElement);
-
 
     camera = new THREE.PerspectiveCamera(
         75,
@@ -248,23 +308,21 @@ const init = () => {
     );
     // camera.position.y = 0;
     camera.position.z -= 0.01;
-
     controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.enableZoom = false;
     controls.rotateSpeed = -0.3;
     controls.enablePan = false;
-
+    // controls.update()
     scene.add(camera);
+    camera.lookAt(-0.72123, -0.332765, -3.59841, 0.349066)
     screensRender("screen_one", 0.745769, -0.332765, -3.57589, -0.349066);
     screensRender("screen_two", -0.72123, -0.332765, -3.59841, 0.349066);
-
     // axe helper
     const axesHelper = new AxesHelper(10);
-
+    // scene.add(axesHelper);
     // controls for drag and scroll
     document.addEventListener("wheel", onMouseWheel);
-    camera.rotation.y = 90;
     scene.add(gltfSceneHolder);
     scene.add(skyboxHolder);
     animate();
@@ -276,6 +334,7 @@ const animate = () => {
     // update video texture
     // vid_texture.needsUpdate = true;
     renderer.render(scene, camera);
+    controls.update();
     // cssRenderer.render(cssScene, camera);
 };
 
@@ -351,12 +410,15 @@ const onMouseWheel = (e) => {
     camera.updateProjectionMatrix();
 };
 const onWindowResize = () => {
+    console.log('Window resize');
+
     camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    cssRenderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    // cssRenderer.setSize(window.innerWidth, window.innerHeight);
+    camera.updateProjectionMatrix();
 };
+window.addEventListener( 'resize', onWindowResize, false );
 
 // init();
 
@@ -378,7 +440,6 @@ window.onload = () => {
     pdfElement.style.width = "100%";
     pdfElement.src = pdf + "#toolbar";
     resumeDiv.prepend(pdfElement);
-
     const canvas = document.getElementsByTagName("canvas")[0];
     const overlay = document.getElementById("overlay");
     resume.addEventListener("click", () => {
@@ -387,6 +448,7 @@ window.onload = () => {
         overlay.style.opacity = 0.2;
     });
     document.getElementById("close").addEventListener("click", () => {
+        removeObject()
         resumeDiv.style.display = "none";
         overlay.style.opacity = 1;
         canvas.style.opacity = 1;
