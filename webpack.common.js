@@ -1,17 +1,10 @@
 const path = require('path');
 // this is the plugin that auto regenerates our dist/htmls
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const loader = require('sass-loader');
 // analyzer plugin to help see insights into app
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-// u only need the cleanwebpack plugin for production, dev mode saves to memory
-// TODO put in dev mode
-// const CleanWebPackPlugin = require('clean-webpack-plugin');
-
 
 module.exports = {
-    mode: 'development',
-    // can set entry to multiple points do entry : {bundle: path.re...}
     entry: { main: path.resolve(__dirname, 'src/script.js') },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -21,19 +14,6 @@ module.exports = {
         // this will keep the img filenames the same in dist folder
         // assetModuleFilename: '[name][ext]'
         assetModuleFilename: 'assets/[hash][ext][query]'
-    },
-    // helps find bugs faster
-    devtool: 'source-map',
-    // set up the dev server
-    devServer: {
-        static: {
-            directory: path.resolve(__dirname, 'dist'),
-        },
-        port: 3000,
-        open: true,
-        hot: true,
-        compress: true,
-        historyApiFallback: true
     },
     // setting up loaders
     module: {
@@ -46,17 +26,11 @@ module.exports = {
                 }
             },
             {
-                // any files that end with the extension of .scss apply these loaders
                 test: /\.(scss|css)$/i,
                 use: [
                     'style-loader', 'css-loader', 'sass-loader'
                 ]
             },
-            // {
-            //     test: /\.json$/,
-            //     loader: 'json-loader',
-            //     type: 'javascript/auto'
-            // },
             {
                 type: 'javascript/auto',
                 test: /\.json$/,
@@ -81,18 +55,9 @@ module.exports = {
                 }
             },
             {
-                // add images loader
                 // the i add the end of the test is for case insensitive names
                 test: /\.(png|jpg|jpeg|gif|svg)$/,
                 type: 'asset/resource',
-                // use: {
-                //     // file-loader needs to be installed with npm
-                //     loader: 'file-loader',
-                //     options: {
-                //         name: "[name].[hash].[ext]",
-                //         outputPath: 'assets'
-                //     }
-                // }
             },
             {
                 test: /\.pdf$/,
@@ -109,17 +74,6 @@ module.exports = {
             {
                 test: /\.(glb|gltf)$/i,
                 type: 'asset/resource',
-                // use:
-                // [
-                //     {
-                //         // loader: 'gltf-loader',
-                //         options:
-                //         {
-                //             name: '[path][name].[ext]',
-                //             outputPath: 'assets/models'
-                //         }
-                //     }
-                // ],
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i,
@@ -135,9 +89,5 @@ module.exports = {
             // this template is what the dist index.html is generated from
             template: path.resolve(__dirname, 'src/template.html'),
         }),
-        // new BundleAnalyzerPlugin(),
-        // TODO put in dev mode
-        // new CleanWebPackPlugin(),
     ]
 }
-

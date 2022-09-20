@@ -1,11 +1,10 @@
-// import handgesture from "./assets/hand_gesture.json"
 import checkIcon from "./assets/checkMarkWhite.svg";
 import pdf from "./assets/resume.pdf";
 import copyIcon from "./assets/copy-paste-logo.svg";
-// import Lottie from "lottie-web";
+import Lottie from "lottie-web";
 import handgesture from "./assets/hand_gesture.json"
 
-export default (Lottie) => {
+export default () => {
     const copyEmail = document.querySelector(".email_two");
     copyEmail.addEventListener("click", () => {
         copyEmail.children[0].src = checkIcon;
@@ -25,6 +24,7 @@ export default (Lottie) => {
     resumeDiv.prepend(pdfElement);
     const canvas = document.getElementsByTagName("canvas")[0];
     const overlay = document.getElementById("overlay");
+    overlay.style.display = 'block';
     resumeBtn.addEventListener("click", () => {
         console.log("resume clicked");
         resumeDiv.style.display = "flex";

@@ -18,36 +18,34 @@ import rainbow_up from "./assets/rainbow_up.png";
 import rainbow_dn from "./assets/rainbow_dn.png";
 import rainbow_rt from "./assets/rainbow_rt.png";
 import rainbow_lf from "./assets/rainbow_lf.png";
-import scene_import from "./assets/models/scene.gltf";
+import scene_import from "./assets/models/scene.glb";
 import {
     CSS3DRenderer,
     CSS3DObject,
 } from "three/addons/renderers/CSS3DRenderer.js";
-let scene, cssScene, camera, renderer, cssRenderer, controls, clock, mixer;
+let scene, loadingScene, cssScene, camera, renderer, cssRenderer, controls, clock, mixer;
 let player = { height: 1.8 };
 let USE_WIREFRAME = true;
 let vid_texture;
 import afterLoad from "./afterLoad";
 const fontLoader = new FontLoader();
 const ttfLoader = new TTFLoader();
-import bodymovin from "bodymovin";
-import Lottie from "lottie-web";
-import handgesture from "./assets/hand_gesture.json"
 
 // const material = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true, wireframeLinewidth: 1, side: THREE.DoubleSide });
 let gltfSceneHolder, skyboxHolder;
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
+// passing in the loadManager to every instance of a loader such as GLTFLoader etc,
+const loadManager = new LoadingManager();
+
 let dirLight, pointLightOne, pointLightTwo, pointLightThree;
 let textMesh, numMesh;
 const progressBar = document.getElementById('progress_bar');
 const progressLabel = document.getElementsByTagName('label')[0];
 
-// const material = new THREE.MeshBasicMaterial({ color: 0x69934, wireframe: USE_WIREFRAME, wireframeLinewidth: 1, side: THREE.FrontSide });
-const loadManager = new LoadingManager();
-// passing in the loadManager to every instance of a loader such as GLTFLoader etc,
-// gltf loader
 let allowNextScene = false;
+
 loadManager.onStart = (url, item, total) => {
-    scene = new THREE.Scene();
+    loadingScene = new THREE.Scene();
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -60,34 +58,34 @@ loadManager.onStart = (url, item, total) => {
     camera.position.y = 7
     camera.position.x = -3
     camera.lookAt(0, 0, 0)
-    scene.add(camera);
+    loadingScene.add(camera);
 
     const axesHelper = new AxesHelper(10);
-    // scene.add(axesHelper);
+    // loadingScene.add(axesHelper);
 
     pointLightOne = new THREE.PointLight("#EE6123", 1, 100);
     pointLightOne.position.set(-8, 4, -6);
     pointLightOne.shadow.mapSize.width = 4096
     pointLightOne.shadow.mapSize.height = 4096
     pointLightOne.castShadow = true;
-    scene.add(pointLightOne);
-    // scene.add(new THREE.PointLightHelper(pointLightOne, .5, 0xff000000))
+    loadingScene.add(pointLightOne);
+    // loadingScene.add(new THREE.PointLightHelper(pointLightOne, .5, 0xff000000))
 
     pointLightTwo = new THREE.PointLight("#FA003F", 1, 100);
     pointLightTwo.position.set(-3, 8, -4);
     pointLightTwo.shadow.mapSize.width = 4096
     pointLightTwo.shadow.mapSize.height = 4096
     pointLightTwo.castShadow = true;
-    scene.add(pointLightTwo);
-    // scene.add(new THREE.PointLightHelper(pointLightTwo, .5, 0xff000000))
+    loadingScene.add(pointLightTwo);
+    // loadingScene.add(new THREE.PointLightHelper(pointLightTwo, .5, 0xff000000))
 
     pointLightThree = new THREE.PointLight("#FFCF00", 1, 100);
     pointLightThree.position.set(8, 8, -2);
     pointLightThree.shadow.mapSize.width = 4096
     pointLightThree.shadow.mapSize.height = 4096
     pointLightThree.castShadow = true;
-    scene.add(pointLightThree);
-    // scene.add(new THREE.PointLightHelper(pointLightThree, .5, 0xff000000))
+    loadingScene.add(pointLightThree);
+    // loadingScene.add(new THREE.PointLightHelper(pointLightThree, .5, 0xff000000))
 
     const plane = new THREE.Mesh(new THREE.PlaneGeometry(30, 30, 30),
         new THREE.MeshPhongMaterial({ color: "#FEEFE5" })
@@ -95,7 +93,7 @@ loadManager.onStart = (url, item, total) => {
     // plane.position.y = -.17
     plane.receiveShadow = true;
     plane.rotation.x = - Math.PI / 2;
-    scene.add(plane);
+    loadingScene.add(plane);
     let text;
     ttfLoader.load(satoshi_regular, (json) => {
         // parse the ttf json  
@@ -137,7 +135,7 @@ loadManager.onStart = (url, item, total) => {
                 textMesh.position.x = prevMeshX + .4
             }
             prevMeshX = textMesh.position.x;
-            scene.add(textMesh);
+            loadingScene.add(textMesh);
             i++
         }, 200)
     })
@@ -145,7 +143,7 @@ loadManager.onStart = (url, item, total) => {
 };
 const animateLoadScreen = () => {
     if (progressBar.value = 100 && allowNextScene === true) {
-        console.log('end'); return
+        console.log('end loading'); return
     }
     const time = Date.now() * 0.0005;
     pointLightOne.position.x = Math.sin(time) * 20
@@ -154,7 +152,7 @@ const animateLoadScreen = () => {
     pointLightTwo.position.x = Math.cos(time) * 20
     pointLightThree.position.z = Math.sin(time * 2) * 20
     pointLightThree.position.x = Math.cos(time * 2) * 20
-    renderer.render(scene, camera);
+    renderer.render(loadingScene, camera);
     requestAnimationFrame(animateLoadScreen);
 };
 loadManager.onProgress = (url, loaded, total) => {
@@ -165,24 +163,21 @@ loadManager.onProgress = (url, loaded, total) => {
     // oldProgressPercentage = progressBar
 }
 
-
 loadManager.onLoad = () => {
     console.log('finished loading')
-    // TODO when it does load the scene then wait a second or two and then show the new scene
-    renderer.renderLists.dispose();
-    document.getElementById('loading_renderer').remove()
+    loadingScene.clear()
     progressBar.remove()
     progressLabel.remove()
+    renderer = null;
+    camera = null;
+    document.getElementById('loading_renderer').remove()
     init();
-    document.getElementById('overlay').style.display = 'block';
-    afterLoad(Lottie);
+    afterLoad()
 }
 
 loadManager.onError = (url) => {
     console.log("err loading file =>", url);
 };
-const gltfLoader = new GLTFLoader(loadManager);
-
 
 const init = () => {
     scene = new THREE.Scene();
@@ -203,9 +198,6 @@ const init = () => {
     // renderer.shadowMap.enabled = true;
     renderer.domElement.setAttribute("id", "renderer");
     document.body.appendChild(renderer.domElement);
-
-
-
     camera = new THREE.PerspectiveCamera(
         75,
         window.innerWidth / window.innerHeight,
@@ -234,7 +226,7 @@ const init = () => {
     scene.add(skyboxHolder);
     animate();
 };
-const userDrag = ()=>{
+const userDrag = () => {
     document.getElementById("handGesture").remove();
     controls.removeEventListener("change", userDrag);
 }
@@ -247,6 +239,10 @@ const animate = () => {
     controls.update();
     // cssRenderer.render(cssScene, camera);
 };
+const gltfLoader = new GLTFLoader(loadManager);
+// const dracoLoader = new DRACOLoader();
+// dracoLoader.setDecoderPath('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/js/libs/draco/'); // use a full url path
+// gltfLoader.setDRACOLoader(dracoLoader);
 
 const loadModels = () => {
     gltfLoader.load(scene_import, (gltf) => {
@@ -254,7 +250,6 @@ const loadModels = () => {
             c.castShadow = true;
             c.receiveShadow = true;
         });
-        // scene.add(gltf.scene);
         gltfSceneHolder = gltf.scene;
     });
 
@@ -277,7 +272,6 @@ const loadModels = () => {
     for (let i = 0; i < 6; i++) {
         materialArr[i].side = THREE.BackSide;
     }
-
     let skyBoxGeo = new THREE.BoxGeometry(10, 10, 10);
     let skyBox = new THREE.Mesh(skyBoxGeo, materialArr);
     skyBox.position.y = 1;
@@ -286,16 +280,15 @@ const loadModels = () => {
 };
 loadModels();
 
-// id, pos(xyz), roation.y
 const screensRender = (id, x, y, z, rotateY) => {
     let screen = document.getElementById(id);
     // console.log(screen_one)
-    // screen.load()
+    screen.load()
     screen.play();
     vid_texture = new THREE.VideoTexture(screen);
     vid_texture.minFilter = THREE.LinearFilter;
     vid_texture.magFilter = THREE.LinearFilter;
-    screen.remove();
+    // screen.remove();
     let vidMaterial = new THREE.MeshBasicMaterial({
         map: vid_texture, //set material Property to video texture
         side: THREE.FrontSide, //show vid on front side
@@ -308,8 +301,6 @@ const screensRender = (id, x, y, z, rotateY) => {
     screen_mesh.position.copy(pos);
     // screen_mesh.position.set(.5, .5, .5)
     screen_mesh.rotation.y = rotateY;
-    // screen_mesh.rotation.copy(object.rotation);
-    // screen_mesh.scale.copy(object.scale);
     scene.add(screen_mesh);
 };
 
