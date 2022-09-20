@@ -1,6 +1,7 @@
 const path = require('path');
 // this is the plugin that auto regenerates our dist/htmls
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const loader = require('sass-loader');
 // analyzer plugin to help see insights into app
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 // u only need the cleanwebpack plugin for production, dev mode saves to memory
@@ -51,6 +52,23 @@ module.exports = {
                     'style-loader', 'css-loader', 'sass-loader'
                 ]
             },
+            // {
+            //     test: /\.json$/,
+            //     loader: 'json-loader',
+            //     type: 'javascript/auto'
+            // },
+            {
+                type: 'javascript/auto',
+                test: /\.json$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            outputPath: 'assets'
+                        }
+                    }
+                ]
+            },
             {
                 // for babel loader, for better web connectivity to older browsers
                 test: /\.js$/,
@@ -72,7 +90,7 @@ module.exports = {
                 //     loader: 'file-loader',
                 //     options: {
                 //         name: "[name].[hash].[ext]",
-                //         outputPath: "assets"
+                //         outputPath: 'assets'
                 //     }
                 // }
             },
@@ -82,7 +100,8 @@ module.exports = {
                     {
                         loader: 'file-loader',
                         options: {
-                            name: '[name].[ext]'
+                            name: '[name].[ext]',
+                            outputPath: 'assets'
                         }
                     }
                 ]
@@ -105,7 +124,7 @@ module.exports = {
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i,
                 type: 'asset/resource',
-              },
+            },
         ]
     },
     // add plugins here

@@ -32,6 +32,7 @@ const fontLoader = new FontLoader();
 const ttfLoader = new TTFLoader();
 import bodymovin from "bodymovin";
 import Lottie from "lottie-web";
+import handgesture from "./assets/hand_gesture.json"
 
 // const material = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true, wireframeLinewidth: 1, side: THREE.DoubleSide });
 let gltfSceneHolder, skyboxHolder;
@@ -39,6 +40,7 @@ let dirLight, pointLightOne, pointLightTwo, pointLightThree;
 let textMesh, numMesh;
 const progressBar = document.getElementById('progress_bar');
 const progressLabel = document.getElementsByTagName('label')[0];
+
 // const material = new THREE.MeshBasicMaterial({ color: 0x69934, wireframe: USE_WIREFRAME, wireframeLinewidth: 1, side: THREE.FrontSide });
 const loadManager = new LoadingManager();
 // passing in the loadManager to every instance of a loader such as GLTFLoader etc,
@@ -60,32 +62,8 @@ loadManager.onStart = (url, item, total) => {
     camera.lookAt(0, 0, 0)
     scene.add(camera);
 
-    // controls = new OrbitControls(camera, renderer.domElement);
-    // controls.enabled = false
-    // How far you can orbit vertically, upper and lower limits.
-    // Range is 0 to Math.PI radians.
-    // controls.maxPolarAngle = Math.PI / 2;
-    // How far you can orbit horizontally, upper and lower limits.
-    // If set, must be a sub-interval of the interval [ - Math.PI, Math.PI ].
-    // controls.minAzimuthAngle = Math.PI; // radians
-    // controls.maxAzimuthAngle = Math.PI; // radians
-    // axe helper
     const axesHelper = new AxesHelper(10);
     // scene.add(axesHelper);
-    // dirLight = new THREE.DirectionalLight("#F0E100", 1);
-    // dirLight.castShadow = true;
-    // dirLight.position.set(8, 12, 8);
-    // // how much area the light will cover
-    // dirLight.shadow.camera   .near = 1;
-    // dirLight.shadow.camera.top	+= 25 ;
-    // dirLight.shadow.camera.right +=25
-    // dirLight.shadow.camera.left -=25
-    // dirLight.shadow.camera.bottom -= 25;
-    // // increase shadow quality
-    // dirLight.shadow.mapSize.width = 4096
-    // dirLight.shadow.mapSize.height = 4096
-    // scene.add(dirLight);
-    // scene.add(new THREE.CameraHelper(dirLight.shadow.camera))
 
     pointLightOne = new THREE.PointLight("#EE6123", 1, 100);
     pointLightOne.position.set(-8, 4, -6);
@@ -163,7 +141,6 @@ loadManager.onStart = (url, item, total) => {
             i++
         }, 200)
     })
-    // changeProgressNum('0')
     animateLoadScreen();
 };
 const animateLoadScreen = () => {
@@ -180,98 +157,27 @@ const animateLoadScreen = () => {
     renderer.render(scene, camera);
     requestAnimationFrame(animateLoadScreen);
 };
-let oldProgressPercentage;
 loadManager.onProgress = (url, loaded, total) => {
     // console.log(url, loaded, total);
     // console.log('progress loading')
     progressBar.value = Math.trunc((loaded / total) * 100);
     progressLabel.innerHTML = progressBar.value + '%'
     // oldProgressPercentage = progressBar
-    // changeProgressNum(progressBar.value)
 }
-const removeObject = (obj) => {
-    // const object = scene.getObjectByProperty(numMesh.uuid );
-    // object.geometry.dispose();
-    // object.material.dispose();
-    // renderer.renderLists.dispose();
-    // console.log(obj)
-    // scene.removeObject(obj);
-    // textMesh = null;
-    // obj.parent.remove(obj);
-    // if(numMesh){
-    //     numMesh.geometry.dispose();
-    //     numMesh.material.dispose();
-    //     scene.remove(numMesh);
-    //     numMesh = undefined;
-    // }
-    console.log(progressBar.value);
-    scene.remove(obj);
-    if (obj.children.length > 0) {
-        // scene.remove( object );
-        for (var x = obj.children.length - 1; x >= 0; x--) {
-            removeObject(obj.children[x]); ``
-        }
-    }
-    if (obj.geometry) {
-        // obj.geometry.dispose();
-        obj.geometry = undefined
-    }
-    if (obj.material) {
-        // obj.material.dispose();
-        obj.material = undefined
-    }
-    if (obj.parent) {
-        obj.parent.remove(obj)
-    }
-    obj = undefined
-    console.log("MESH AFTER =>", obj)
-}
-// const changeProgressNum = (num) => {
-//     num = num + '%'
-//     console.log(numMesh)
-//     if (progressBar.value !== 0 && progressBar.value !== 100) {
-//         removeObject(numMesh)
-//         // scene.remove(numMesh)
-//     }
-//     ttfLoader.load(satoshi_regular, (json) => {
-//         let font = fontLoader.parse(json);
-//         let prevMeshX = -3
-//         const numGeo = new TextGeometry(num, {
-//             font: font,
-//             size: .5,
-//             height: .08,
-//         })
-//         numMesh = new THREE.Mesh(numGeo, [
-//             new THREE.MeshPhongMaterial({ color: '#FEEFE5' }), //front
-//             new THREE.MeshPhongMaterial({ color: '#FAAA75' }), //side
-//         ]);
-//         numMesh.castShadow = true;
-//         numMesh.receiveShadow = true;
-//         numMesh.rotation.x = -Math.PI / 2
-//         numMesh.position.y = .05
-//         numMesh.position.z = 1
-//         prevMeshX = numMesh.position.x;
-//         scene.add(numMesh);
-//         if (progressBar.value !== 0 && progressBar.value !== 100) {
-//             removeObject(numMesh)
-//         }
-//     })
-// }
+
+
 loadManager.onLoad = () => {
     console.log('finished loading')
     // TODO when it does load the scene then wait a second or two and then show the new scene
-    // TODO remove the text from, the progress_container from the dom remove the scene backgrounf color
-    // while (scene.children.length > 0) {
-    //     scene.remove(scene.children[0]);
-    // }
-    // scene.clear()
     renderer.renderLists.dispose();
     document.getElementById('loading_renderer').remove()
     progressBar.remove()
     progressLabel.remove()
     init();
     document.getElementById('overlay').style.display = 'block';
+    afterLoad(Lottie);
 }
+
 loadManager.onError = (url) => {
     console.log("err loading file =>", url);
 };
@@ -298,6 +204,8 @@ const init = () => {
     renderer.domElement.setAttribute("id", "renderer");
     document.body.appendChild(renderer.domElement);
 
+
+
     camera = new THREE.PerspectiveCamera(
         75,
         window.innerWidth / window.innerHeight,
@@ -321,11 +229,15 @@ const init = () => {
     // scene.add(axesHelper);
     // controls for drag and scroll
     document.addEventListener("wheel", onMouseWheel);
+    controls.addEventListener("change", userDrag);
     scene.add(gltfSceneHolder);
     scene.add(skyboxHolder);
     animate();
 };
-
+const userDrag = ()=>{
+    document.getElementById("handGesture").remove();
+    controls.removeEventListener("change", userDrag);
+}
 const animate = () => {
     // this loops to create frames
     requestAnimationFrame(animate);
@@ -383,7 +295,7 @@ const screensRender = (id, x, y, z, rotateY) => {
     vid_texture = new THREE.VideoTexture(screen);
     vid_texture.minFilter = THREE.LinearFilter;
     vid_texture.magFilter = THREE.LinearFilter;
-
+    screen.remove();
     let vidMaterial = new THREE.MeshBasicMaterial({
         map: vid_texture, //set material Property to video texture
         side: THREE.FrontSide, //show vid on front side
@@ -416,10 +328,6 @@ const onWindowResize = () => {
     // cssRenderer.setSize(window.innerWidth, window.innerHeight);
     camera.updateProjectionMatrix();
 };
-window.addEventListener( 'resize', onWindowResize, false );
+window.addEventListener('resize', onWindowResize, false);
 
 // init();
-window.onload = () => {
-    afterLoad(Lottie);
-    // afterLoad()
-}

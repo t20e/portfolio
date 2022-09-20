@@ -17,8 +17,10 @@ html, body{
     width: 100vw;
     margin: 0 auto;
     overflow: hidden;
+    cursor: grab;
 }
 #overlay{
+    cursor: default;
     position: absolute;
     top: 0;
     right: 0;
@@ -181,17 +183,48 @@ label{
     margin-top: 0.5%;
     accent-color: #FFCF00;
 }
+@keyframes moveGesture {
+    0% {
+        left: 50%;
+        top: 50%;
+    }
+
+    20% {
+        left: 40%;
+        top: 50%;
+    }
+
+    40% {
+        left: 60%;
+        top: 50%;
+    }
+
+    60% {
+        left: 50%;
+        top: 40%;
+    }
+
+    80% {
+        left: 50%;
+        top: 60%;
+    }
+
+    100% {
+        left: 50%;
+        top: 50%;
+    }
+}
 
 #handGesture{
     height: 20vh;
     width: 20vw;
-    position: none;
+    pointer-events: none;
     position: absolute;
-    top: 50%;
-    left: 50%;
+    filter: brightness(0) invert(1);
     transform: translate(-50%, -50%);
-    display: block;
+    // animation: moveGesture 5s infinite;
 }
+
 // #renderer{
 // }
 //  #cssRenderer{

@@ -1,8 +1,9 @@
-import handgesture from "./assets/hand_gesture.json"
+// import handgesture from "./assets/hand_gesture.json"
 import checkIcon from "./assets/checkMarkWhite.svg";
 import pdf from "./assets/resume.pdf";
 import copyIcon from "./assets/copy-paste-logo.svg";
 // import Lottie from "lottie-web";
+import handgesture from "./assets/hand_gesture.json"
 
 export default (Lottie) => {
     const copyEmail = document.querySelector(".email_two");
@@ -35,11 +36,13 @@ export default (Lottie) => {
         overlay.style.opacity = 1;
         canvas.style.opacity = 1;
     });
+    const handGestureDiv = document.getElementById("handGesture");
     Lottie.loadAnimation({
-        container: document.getElementById("handGesture"),
+        container: handGestureDiv,
         renderer: 'svg',
         loop: true,
         autoplay: true,
-        animationData: handgesture
+        path: handgesture
     })
+    handGestureDiv.style.animation = " moveGesture 5s infinite"
 }
