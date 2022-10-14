@@ -23,7 +23,7 @@ import {
     CSS3DRenderer,
     CSS3DObject,
 } from "three/addons/renderers/CSS3DRenderer.js";
-let scene, loadingScene, cssScene, camera, renderer, cssRenderer, controls, clock, mixer;
+let scene, loadingScene, cssScene, camera, renderer, cssRenderer, controls, clock, mixer, mouse, raycaster, selectedObj = null;
 let player = { height: 1.8 };
 let USE_WIREFRAME = true;
 let vid_texture;
@@ -103,7 +103,7 @@ loadManager.onStart = (url, item, total) => {
         let i = 0;
         let prevMeshX = -3
         let addChars = setInterval(() => {
-            console.log(i)
+            // console.log(i)
             if (i > 14) {
                 clearInterval(addChars)
                 allowNextScene = true;
@@ -180,6 +180,7 @@ loadManager.onError = (url) => {
 };
 
 const init = () => {
+
     scene = new THREE.Scene();
     const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
     hemiLight.color.setHSL(0.2, 0.2, 0.1);
@@ -204,7 +205,6 @@ const init = () => {
         1,
         1000
     );
-    // camera.position.y = 0;
     camera.position.z -= 0.01;
     controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
@@ -213,7 +213,17 @@ const init = () => {
     controls.enablePan = false;
     // controls.update()
     scene.add(camera);
-    camera.lookAt(-0.72123, -0.332765, -3.59841, 0.349066)
+    // racycaster
+    mouse = new THREE.Vector2();
+    raycaster = new THREE.Raycaster();
+
+    const geometry = new THREE.BoxGeometry(.5, .5, .5);
+    const material = new THREE.MeshBasicMaterial({ color: 'red' });
+    const cube = new THREE.Mesh(geometry, material);
+    cube.position.set(1.5, -.7, 2);
+    // cube.name = "showFreeStuffObj"
+    scene.add(cube);
+    selectedObj = cube;
     screensRender("screen_one", 0.745769, -0.332765, -3.57589, -0.349066);
     screensRender("screen_two", -0.72123, -0.332765, -3.59841, 0.349066);
     // axe helper
@@ -221,6 +231,8 @@ const init = () => {
     // scene.add(axesHelper);
     // controls for drag and scroll
     document.addEventListener("wheel", onMouseWheel);
+    window.addEventListener('mousemove', onMouseMove, false);
+    window.addEventListener('click', onClickObj);
     controls.addEventListener("change", userDrag);
     scene.add(gltfSceneHolder);
     scene.add(skyboxHolder);
@@ -230,7 +242,10 @@ const userDrag = () => {
     document.getElementById("handGesture").remove();
     controls.removeEventListener("change", userDrag);
 }
+
 const animate = () => {
+    // update the picking ray with the camera and pointer position
+    raycaster.setFromCamera(mouse, camera);
     // this loops to create frames
     requestAnimationFrame(animate);
     // update video texture
@@ -251,6 +266,7 @@ const loadModels = () => {
             c.receiveShadow = true;
         });
         gltfSceneHolder = gltf.scene;
+        // console.log(gltfSceneHolder)
     });
 
     let materialArr = [];
@@ -303,7 +319,20 @@ const screensRender = (id, x, y, z, rotateY) => {
     screen_mesh.rotation.y = rotateY;
     scene.add(screen_mesh);
 };
-
+const onClickObj = () => {
+    raycaster.setFromCamera(mouse, camera);
+    const intersect = raycaster.intersectObjects(scene.children);
+    for (let i = 0; i < intersect.length; i++) {
+        if (intersect[i].object === selectedObj) {
+            console.log('cube clicked')
+        }
+    }
+}
+const onMouseMove = (e) => {
+    // calculates mouse position
+    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
+}
 const onMouseWheel = (e) => {
     const fov = camera.fov + e.deltaY * 0.05;
     // console.log((fov));
@@ -320,5 +349,3 @@ const onWindowResize = () => {
     camera.updateProjectionMatrix();
 };
 window.addEventListener('resize', onWindowResize, false);
-
-// init();
