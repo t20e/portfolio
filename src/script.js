@@ -23,26 +23,31 @@ import {
     CSS3DRenderer,
     CSS3DObject,
 } from "three/addons/renderers/CSS3DRenderer.js";
+import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer'
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
+import afterLoad from "./afterLoad";
 let scene, loadingScene, cssScene, camera, renderer, cssRenderer, controls, clock, mixer, mouse, raycaster, selectedObj = null;
+let dirLight, pointLightOne, pointLightTwo, pointLightThree;
+
 let player = { height: 1.8 };
 let USE_WIREFRAME = true;
 let vid_texture;
-import afterLoad from "./afterLoad";
 const fontLoader = new FontLoader();
 const ttfLoader = new TTFLoader();
 
 // const material = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true, wireframeLinewidth: 1, side: THREE.DoubleSide });
 let gltfSceneHolder, skyboxHolder;
-import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 // passing in the loadManager to every instance of a loader such as GLTFLoader etc,
 const loadManager = new LoadingManager();
 
-let dirLight, pointLightOne, pointLightTwo, pointLightThree;
 let textMesh, numMesh;
 const progressBar = document.getElementById('progress_bar');
 const progressLabel = document.getElementsByTagName('label')[0];
 
 let allowNextScene = false;
+let aboutMeRenderer = null
+
+
 
 loadManager.onStart = (url, item, total) => {
     loadingScene = new THREE.Scene();
@@ -220,9 +225,10 @@ const init = () => {
     const geometry = new THREE.BoxGeometry(.5, .5, .5);
     const material = new THREE.MeshBasicMaterial({ color: 'red' });
     const cube = new THREE.Mesh(geometry, material);
-    cube.position.set(1.5, -.7, 2);
-    // cube.name = "showFreeStuffObj"
+    cube.position.set(10, 10, 2);
     scene.add(cube);
+    // TODO add this back
+    // cube.position.set(1.5, -.7, 2);
     selectedObj = cube;
     screensRender("screen_one", 0.745769, -0.332765, -3.57589, -0.349066);
     screensRender("screen_two", -0.72123, -0.332765, -3.59841, 0.349066);
@@ -236,6 +242,17 @@ const init = () => {
     controls.addEventListener("change", userDrag);
     scene.add(gltfSceneHolder);
     scene.add(skyboxHolder);
+    // render css onto the scene
+    aboutMeRenderer = new CSS2DRenderer();
+    aboutMeRenderer.setSize(window.innerWidth, window.innerHeight)
+    aboutMeRenderer.domElement.style.position = "absolute";
+    aboutMeRenderer.domElement.style.top = '0px'
+    aboutMeRenderer.domElement.style.pointerEvents = "none"
+    const aboutMeElem = createAboutMeDiv()
+    const aboutMeObj = new CSS2DObject(aboutMeElem)
+    scene.add(aboutMeObj)
+    aboutMeObj.position.set(-5, 3.5, 4)
+    document.body.appendChild(aboutMeRenderer.domElement)
     animate();
 };
 const userDrag = () => {
@@ -251,6 +268,7 @@ const animate = () => {
     // update video texture
     // vid_texture.needsUpdate = true;
     renderer.render(scene, camera);
+    aboutMeRenderer.render(scene, camera);
     controls.update();
     // cssRenderer.render(cssScene, camera);
 };
@@ -347,5 +365,16 @@ const onWindowResize = () => {
     renderer.setPixelRatio(window.devicePixelRatio);
     // cssRenderer.setSize(window.innerWidth, window.innerHeight);
     camera.updateProjectionMatrix();
+    aboutMeRenderer.setSize(this.window.innerWidth, this.window.innerHeight);
 };
+const createAboutMeDiv = () => {
+    const elem = document.createElement('div')
+    elem.setAttribute('id', 'about_me')
+    const img = document.createElement('img')
+    img.src = "https://portfolio-avis-s3.s3.amazonaws.com/client/message-app/YX7tMvIf4SOgsbjcM3SmNYaPXRg4wfgY"
+    const p = document.createElement('p')
+    p.textContent += `Hello, I'm tony. A year and a half ago I was in the construction field of weatherizing homes, now I am a software developer. Why the career change? To answer the question I have always been fascinated with tech and specifically robotics. I didn't feel attached to my previous position, so why not do something I like? When I discovered that many professionals in this field have attained their profession without a bachelor's or any other major degree. I jumped at the chance to achieve my goal. Some of my interests are gaming, 3d engines like blender, artificial intelligence, financial markets, and football.`
+    elem.append(img, p)
+    return elem
+}
 window.addEventListener('resize', onWindowResize, false);

@@ -31,6 +31,7 @@ module.exports = {
                     'style-loader', 'css-loader', 'sass-loader'
                 ]
             },
+            
             {
                 type: 'javascript/auto',
                 test: /\.json$/,
@@ -84,7 +85,7 @@ module.exports = {
     // add plugins here
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'portfolio',
+            title: 'js game',
             filename: 'index.html',
             // this template is what the dist index.html is generated from
             template: path.resolve(__dirname, 'src/template.html'),
