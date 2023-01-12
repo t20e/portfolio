@@ -9,7 +9,8 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         // [name] is what i call in entry.main [contenthash] generates a hash for the name
-        filename: '[name][contenthash].js',
+        filename: '[name].js',
+        // filename: '[name][contenthash].js',
         clean: true,
         // this will keep the img filenames the same in dist folder
         // assetModuleFilename: '[name][ext]'
@@ -31,7 +32,7 @@ module.exports = {
                     'style-loader', 'css-loader', 'sass-loader'
                 ]
             },
-            
+
             {
                 type: 'javascript/auto',
                 test: /\.json$/,
@@ -57,7 +58,7 @@ module.exports = {
             },
             {
                 // the i add the end of the test is for case insensitive names
-                test: /\.(png|jpg|jpeg|gif|svg)$/,
+                test: /\.(png|jpg|jpeg|gif|svg|zip)$/,
                 type: 'asset/resource',
             },
             {
@@ -82,6 +83,11 @@ module.exports = {
             },
         ]
     },
+    // resolve: {
+    //     fallback: {
+    //         "fs": false
+    //     }
+    // },
     // add plugins here
     plugins: [
         new HtmlWebpackPlugin({
